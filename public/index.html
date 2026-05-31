@@ -3,2388 +3,929 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Raoki | Elite Middleman Services</title>
-    <meta name="description" content="Raoki - Professional Middleman Services. Trusted, Secure, 24/7 Available.">
-    <meta name="theme-color" content="#030014">
-    <link rel="icon" href="pfp.jpg" type="image/jpeg">
+    <title>Raoki | Elite Middleman</title>
+    <meta name="description" content="Raoki - Elite Middleman Services. Trusted, Secure, 24/7.">
+    <meta name="theme-color" content="#000000">
+    <link rel="icon" href="pfp.jpg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <!-- Three.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <!-- GSAP -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
-    <!-- Vanilla Tilt -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        :root {
-            --primary: #8b5cf6;
-            --primary-light: #a78bfa;
-            --primary-dark: #6d28d9;
-            --secondary: #06b6d4;
-            --accent: #f472b6;
-            --neon-blue: #00f0ff;
-            --neon-purple: #bf5af2;
-            --neon-pink: #ff2d55;
-            --neon-green: #39ff14;
-            --bg-dark: #030014;
-            --bg-deeper: #010008;
-            --bg-card: rgba(10, 5, 30, 0.6);
-            --bg-card-hover: rgba(20, 10, 50, 0.8);
-            --text-primary: #ffffff;
-            --text-secondary: #94a3b8;
-            --text-muted: #64748b;
-            --glass: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --glass-border-hover: rgba(139, 92, 246, 0.3);
-            --success: #10b981;
-            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            --radius-sm: 8px;
-            --radius-md: 16px;
-            --radius-lg: 24px;
-            --radius-xl: 32px;
-            --shadow-glow: 0 0 40px rgba(139, 92, 246, 0.15);
-            --transition-smooth: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-
-        html { scroll-behavior: smooth; scroll-padding-top: 80px; }
-
-        body {
-            font-family: 'Inter', -apple-system, sans-serif;
-            background: var(--bg-dark);
-            color: var(--text-primary);
-            overflow-x: hidden;
-            cursor: none;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        /* ===== CUSTOM CURSOR ===== */
-        .cursor-outer {
-            position: fixed;
-            width: 40px;
-            height: 40px;
-            border: 1.5px solid rgba(139, 92, 246, 0.5);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 99999;
-            transition: transform 0.2s ease, border-color 0.3s ease, width 0.3s ease, height 0.3s ease;
-            transform: translate(-50%, -50%);
-            mix-blend-mode: difference;
-        }
-
-        .cursor-inner {
-            position: fixed;
-            width: 8px;
-            height: 8px;
-            background: var(--primary);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 99999;
-            transform: translate(-50%, -50%);
-            transition: transform 0.1s ease, width 0.2s ease, height 0.2s ease, background 0.3s ease;
-        }
-
-        .cursor-outer.hover {
-            width: 60px;
-            height: 60px;
-            border-color: var(--neon-blue);
-            background: rgba(0, 240, 255, 0.05);
-        }
-
-        .cursor-inner.hover {
-            width: 4px;
-            height: 4px;
-            background: var(--neon-blue);
-        }
-
-        /* ===== SCROLLBAR ===== */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, var(--primary), var(--secondary));
-            border-radius: 10px;
-        }
-
-        /* ===== LOADING SCREEN ===== */
-        .loader {
-            position: fixed;
-            inset: 0;
-            background: var(--bg-deeper);
-            z-index: 100000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            gap: 40px;
-        }
-
-        .loader-logo {
-            font-family: 'Outfit', sans-serif;
-            font-size: 3rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #fff, var(--primary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            opacity: 0;
-            animation: loaderFadeIn 0.5s ease forwards;
-        }
-
-        .loader-bar-container {
-            width: 200px;
-            height: 3px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .loader-bar {
-            width: 0%;
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--neon-blue));
-            border-radius: 10px;
-            animation: loaderProgress 2s ease-in-out forwards;
-        }
-
-        .loader-text {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            letter-spacing: 4px;
-            text-transform: uppercase;
-        }
-
-        @keyframes loaderFadeIn { to { opacity: 1; } }
-        @keyframes loaderProgress { to { width: 100%; } }
-
-        /* ===== THREE.JS CANVAS ===== */
-        #three-canvas {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        /* ===== NOISE OVERLAY ===== */
-        .noise-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: 1;
-            pointer-events: none;
-            opacity: 0.02;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-        }
-
-        /* ===== AURORA BACKGROUND ===== */
-        .aurora {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            pointer-events: none;
-            overflow: hidden;
-        }
-
-        .aurora-beam {
-            position: absolute;
-            width: 60%;
-            height: 60%;
-            border-radius: 50%;
-            filter: blur(120px);
-            opacity: 0.12;
-            animation: auroraFloat 20s ease-in-out infinite;
-        }
-
-        .aurora-beam:nth-child(1) {
-            top: -20%;
-            left: -10%;
-            background: var(--primary);
-            animation-delay: 0s;
-        }
-
-        .aurora-beam:nth-child(2) {
-            top: 30%;
-            right: -20%;
-            background: var(--secondary);
-            animation-delay: -7s;
-            animation-duration: 25s;
-        }
-
-        .aurora-beam:nth-child(3) {
-            bottom: -20%;
-            left: 20%;
-            background: var(--accent);
-            animation-delay: -14s;
-            animation-duration: 30s;
-        }
-
-        @keyframes auroraFloat {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            25% { transform: translate(50px, -30px) scale(1.1); }
-            50% { transform: translate(-30px, 50px) scale(0.9); }
-            75% { transform: translate(30px, 30px) scale(1.05); }
-        }
-
-        /* ===== MAIN CONTENT ===== */
-        .main-content {
-            position: relative;
-            z-index: 2;
-        }
-
-        /* ===== NAVBAR ===== */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            padding: 20px 60px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            transition: var(--transition-smooth);
-        }
-
-        .navbar.scrolled {
-            padding: 14px 60px;
-            background: rgba(3, 0, 20, 0.8);
-            backdrop-filter: blur(40px) saturate(180%);
-            border-bottom: 1px solid var(--glass-border);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        .nav-brand {
-            font-family: 'Outfit', sans-serif;
-            font-size: 1.6rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #fff 0%, var(--primary-light) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            position: relative;
-            letter-spacing: -0.5px;
-        }
-
-        .nav-brand::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, var(--primary), transparent);
-            border-radius: 1px;
-            opacity: 0.6;
-        }
-
-        .nav-menu {
-            display: flex;
-            gap: 40px;
-            list-style: none;
-        }
-
-        .nav-menu a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 500;
-            letter-spacing: 0.3px;
-            transition: var(--transition-smooth);
-            position: relative;
-            padding: 5px 0;
-        }
-
-        .nav-menu a::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 50%;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(90deg, var(--primary), var(--neon-blue));
-            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-            transform: translateX(-50%);
-            border-radius: 2px;
-            box-shadow: 0 0 10px var(--primary);
-        }
-
-        .nav-menu a:hover { color: #fff; }
-        .nav-menu a:hover::after { width: 100%; }
-        .nav-menu a.active { color: #fff; }
-        .nav-menu a.active::after { width: 100%; }
-
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .nav-status {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 14px;
-            background: rgba(16, 185, 129, 0.08);
-            border: 1px solid rgba(16, 185, 129, 0.2);
-            border-radius: 50px;
-            font-size: 0.72rem;
-            color: var(--success);
-            font-weight: 500;
-        }
-
-        .status-dot {
-            width: 7px;
-            height: 7px;
-            background: var(--success);
-            border-radius: 50%;
-            animation: statusPulse 2s ease-in-out infinite;
-            box-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
-        }
-
-        @keyframes statusPulse {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.3); opacity: 0.7; }
-        }
-
-        .nav-cta {
-            padding: 10px 24px;
-            background: linear-gradient(135deg, var(--primary), var(--neon-purple));
-            border: none;
-            border-radius: 12px;
-            color: #fff;
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-decoration: none;
-            transition: var(--transition-smooth);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .nav-cta::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, var(--neon-purple), var(--primary));
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-
-        .nav-cta:hover::before { opacity: 1; }
-        .nav-cta:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(139, 92, 246, 0.5);
-        }
-
-        .nav-cta span { position: relative; z-index: 1; }
-
-        .nav-toggle {
-            display: none;
-            flex-direction: column;
-            gap: 5px;
-            cursor: pointer;
-            z-index: 1001;
-        }
-
-        .nav-toggle span {
-            width: 24px;
-            height: 2px;
-            background: #fff;
-            border-radius: 2px;
-            transition: all 0.3s ease;
-        }
-
-        /* ===== MUSIC PLAYER ===== */
-        .music-player {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .music-player-expanded {
-            display: none;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 18px;
-            background: rgba(10, 5, 30, 0.9);
-            backdrop-filter: blur(30px);
-            border: 1px solid var(--glass-border);
-            border-radius: 50px;
-            animation: slideInRight 0.3s ease;
-        }
-
-        .music-player-expanded.show { display: flex; }
-
-        @keyframes slideInRight {
-            from { opacity: 0; transform: translateX(20px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        .music-info {
-            display: flex;
-            flex-direction: column;
-            max-width: 150px;
-        }
-
-        .music-title {
-            font-size: 0.7rem;
-            font-weight: 600;
-            color: #fff;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .music-artist {
-            font-size: 0.6rem;
-            color: var(--text-muted);
-        }
-
-        .music-controls {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .music-btn {
-            width: 28px;
-            height: 28px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border-radius: 50%;
-        }
-
-        .music-btn:hover { color: #fff; background: rgba(139, 92, 246, 0.2); }
-
-        .music-btn svg { width: 14px; height: 14px; }
-
-        .music-toggle {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), var(--neon-purple));
-            border: none;
-            color: #fff;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: var(--transition-smooth);
-            box-shadow: 0 5px 25px rgba(139, 92, 246, 0.4);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .music-toggle::before {
-            content: '';
-            position: absolute;
-            inset: -2px;
-            border-radius: 50%;
-            background: conic-gradient(var(--primary), var(--neon-blue), var(--accent), var(--primary));
-            z-index: -1;
-            animation: musicSpin 3s linear infinite;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .music-toggle.playing::before { opacity: 1; }
-
-        .music-toggle:hover {
-            transform: scale(1.1);
-            box-shadow: 0 8px 35px rgba(139, 92, 246, 0.6);
-        }
-
-        .music-toggle svg { width: 22px; height: 22px; position: relative; z-index: 1; }
-
-        @keyframes musicSpin { to { transform: rotate(360deg); } }
-
-        .music-visualizer {
-            display: flex;
-            align-items: center;
-            gap: 2px;
-            height: 20px;
-            padding: 0 8px;
-        }
-
-        .music-visualizer .bar {
-            width: 3px;
-            height: 4px;
-            background: var(--primary);
-            border-radius: 2px;
-            transition: height 0.1s ease;
-        }
-
-        .music-visualizer.active .bar {
-            animation: visualizerBounce 0.8s ease-in-out infinite;
-        }
-
-        .music-visualizer.active .bar:nth-child(1) { animation-delay: 0s; }
-        .music-visualizer.active .bar:nth-child(2) { animation-delay: 0.1s; }
-        .music-visualizer.active .bar:nth-child(3) { animation-delay: 0.2s; }
-        .music-visualizer.active .bar:nth-child(4) { animation-delay: 0.3s; }
-        .music-visualizer.active .bar:nth-child(5) { animation-delay: 0.15s; }
-
-        @keyframes visualizerBounce {
-            0%, 100% { height: 4px; }
-            50% { height: 18px; }
-        }
-
-        /* ===== HERO SECTION ===== */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            padding: 120px 20px 80px;
-            overflow: hidden;
-        }
-
-        .hero-content {
-            text-align: center;
-            position: relative;
-            z-index: 5;
-            max-width: 900px;
-        }
-
-        /* Profile picture */
-        .pfp-container {
-            position: relative;
-            width: 200px;
-            height: 200px;
-            margin: 0 auto 50px;
-        }
-
-        .pfp-ring {
-            position: absolute;
-            inset: -12px;
-            border-radius: 50%;
-            background: conic-gradient(from 0deg, var(--primary), var(--neon-blue), var(--accent), var(--primary));
-            animation: pfpRingSpin 4s linear infinite;
-            opacity: 0.7;
-        }
-
-        .pfp-ring::after {
-            content: '';
-            position: absolute;
-            inset: 3px;
-            border-radius: 50%;
-            background: var(--bg-dark);
-        }
-
-        @keyframes pfpRingSpin { to { transform: rotate(360deg); } }
-
-        .pfp-glow {
-            position: absolute;
-            inset: -30px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(139, 92, 246, 0.3) 0%, transparent 70%);
-            animation: pfpGlow 3s ease-in-out infinite alternate;
-        }
-
-        @keyframes pfpGlow {
-            from { transform: scale(0.9); opacity: 0.5; }
-            to { transform: scale(1.1); opacity: 1; }
-        }
-
-        .pfp-image {
-            position: relative;
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            overflow: hidden;
-            z-index: 2;
-            box-shadow: 0 0 40px rgba(139, 92, 246, 0.3), inset 0 0 30px rgba(0, 0, 0, 0.5);
-            transition: transform 0.5s ease;
-        }
-
-        .pfp-image:hover { transform: scale(1.05); }
-
-        .pfp-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .pfp-image:hover img { transform: scale(1.1); }
-
-        .pfp-particles {
-            position: absolute;
-            inset: -50px;
-            pointer-events: none;
-        }
-
-        .pfp-particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            border-radius: 50%;
-            top: 50%;
-            left: 50%;
-        }
-
-        .pfp-particle:nth-child(odd) { background: var(--primary); }
-        .pfp-particle:nth-child(even) { background: var(--neon-blue); }
-
-        .pfp-particle:nth-child(1) { animation: orbit 5s linear infinite; }
-        .pfp-particle:nth-child(2) { animation: orbit 6s linear infinite reverse; animation-delay: -1s; }
-        .pfp-particle:nth-child(3) { animation: orbit 7s linear infinite; animation-delay: -2s; }
-        .pfp-particle:nth-child(4) { animation: orbit 4s linear infinite reverse; animation-delay: -0.5s; }
-        .pfp-particle:nth-child(5) { animation: orbit 8s linear infinite; animation-delay: -3s; }
-        .pfp-particle:nth-child(6) { animation: orbit 5.5s linear infinite reverse; animation-delay: -1.5s; }
-
-        @keyframes orbit {
-            0% { transform: rotate(0deg) translateX(120px) rotate(0deg); opacity: 0.8; }
-            50% { opacity: 0.3; }
-            100% { transform: rotate(360deg) translateX(120px) rotate(-360deg); opacity: 0.8; }
-        }
-
-        /* Hero title */
-        .hero-greeting {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.85rem;
-            color: var(--primary-light);
-            margin-bottom: 12px;
-            letter-spacing: 2px;
-            opacity: 0;
-        }
-
-        .hero-title {
-            font-family: 'Outfit', sans-serif;
-            font-size: clamp(3.5rem, 8vw, 6rem);
-            font-weight: 900;
-            margin-bottom: 8px;
-            letter-spacing: -3px;
-            line-height: 1;
-            position: relative;
-        }
-
-        .hero-title .word {
-            display: inline-block;
-            background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 40%, var(--primary-light) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero-subtitle {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-            margin-bottom: 30px;
-            font-weight: 400;
-        }
-
-        .hero-subtitle .highlight {
-            color: var(--primary-light);
-            font-weight: 600;
-        }
+        *{margin:0;padding:0;box-sizing:border-box}
+        :root{
+            --bg:#000000;
+            --bg-card:rgba(8,8,16,0.85);
+            --bg-card-2:rgba(12,12,24,0.7);
+            --border:rgba(255,255,255,0.04);
+            --border-hover:rgba(120,80,255,0.25);
+            --text:#ffffff;
+            --text-dim:#8892b0;
+            --text-muted:#4a5568;
+            --purple:#7c3aed;
+            --purple-glow:#a855f7;
+            --blue:#3b82f6;
+            --cyan:#06b6d4;
+            --pink:#ec4899;
+            --green:#10b981;
+            --glow-purple:0 0 30px rgba(124,58,237,0.4),0 0 60px rgba(124,58,237,0.15);
+            --glow-blue:0 0 30px rgba(59,130,246,0.4),0 0 60px rgba(59,130,246,0.15);
+            --glow-cyan:0 0 30px rgba(6,182,212,0.4),0 0 60px rgba(6,182,212,0.15);
+            --radius:16px;
+            --transition:all 0.4s cubic-bezier(0.16,1,0.3,1);
+        }
+        html{scroll-behavior:smooth;scroll-padding-top:80px}
+        body{
+            font-family:'Inter',sans-serif;
+            background:var(--bg);
+            color:var(--text);
+            overflow-x:hidden;
+            -webkit-font-smoothing:antialiased;
+            -moz-osx-font-smoothing:grayscale;
+        }
+        ::-webkit-scrollbar{width:5px}
+        ::-webkit-scrollbar-track{background:transparent}
+        ::-webkit-scrollbar-thumb{background:var(--purple);border-radius:10px}
+
+        /* === LOADER === */
+        #loader{
+            position:fixed;inset:0;background:#000;z-index:99999;
+            display:flex;align-items:center;justify-content:center;flex-direction:column;gap:30px;
+        }
+        .loader-brand{
+            font-family:'Outfit',sans-serif;font-size:2.5rem;font-weight:800;
+            background:linear-gradient(135deg,#fff,var(--purple-glow));
+            -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+            text-shadow:0 0 40px rgba(168,85,247,0.5);
+        }
+        .loader-spinner{
+            width:40px;height:40px;border:3px solid rgba(124,58,237,0.2);
+            border-top-color:var(--purple);border-radius:50%;
+            animation:spin 0.8s linear infinite;
+        }
+        @keyframes spin{to{transform:rotate(360deg)}}
+
+        /* === GRID BACKGROUND === */
+        .grid-bg{
+            position:fixed;inset:0;z-index:0;pointer-events:none;
+            background-image:
+                linear-gradient(rgba(124,58,237,0.03) 1px,transparent 1px),
+                linear-gradient(90deg,rgba(124,58,237,0.03) 1px,transparent 1px);
+            background-size:60px 60px;
+            mask-image:radial-gradient(ellipse 80% 50% at 50% 50%,black 40%,transparent 100%);
+        }
+
+        /* === GLOW ORBS === */
+        .orb{
+            position:fixed;border-radius:50%;filter:blur(100px);pointer-events:none;z-index:0;
+            animation:orbFloat 20s ease-in-out infinite;
+        }
+        .orb-1{width:600px;height:600px;top:-200px;left:-200px;background:rgba(124,58,237,0.08);animation-delay:0s}
+        .orb-2{width:500px;height:500px;bottom:-150px;right:-150px;background:rgba(6,182,212,0.06);animation-delay:-7s}
+        .orb-3{width:400px;height:400px;top:40%;left:50%;background:rgba(236,72,153,0.04);animation-delay:-14s}
+        @keyframes orbFloat{
+            0%,100%{transform:translate(0,0) scale(1)}
+            33%{transform:translate(30px,-20px) scale(1.05)}
+            66%{transform:translate(-20px,30px) scale(0.95)}
+        }
+
+        /* === NAVBAR === */
+        .nav{
+            position:fixed;top:0;left:0;right:0;z-index:1000;
+            padding:20px 40px;display:flex;align-items:center;justify-content:space-between;
+            transition:var(--transition);
+        }
+        .nav.scrolled{
+            padding:14px 40px;
+            background:rgba(0,0,0,0.85);
+            backdrop-filter:blur(30px) saturate(150%);
+            border-bottom:1px solid var(--border);
+        }
+        .nav-brand{
+            font-family:'Outfit',sans-serif;font-size:1.5rem;font-weight:800;
+            background:linear-gradient(135deg,#fff,var(--purple-glow));
+            -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+        }
+        .nav-links{display:flex;gap:32px;list-style:none}
+        .nav-links a{
+            color:var(--text-dim);text-decoration:none;font-size:0.82rem;font-weight:500;
+            transition:var(--transition);position:relative;padding:4px 0;
+        }
+        .nav-links a::after{
+            content:'';position:absolute;bottom:-2px;left:0;width:0;height:2px;
+            background:var(--purple);border-radius:2px;transition:width 0.3s ease;
+            box-shadow:0 0 8px var(--purple);
+        }
+        .nav-links a:hover{color:#fff}
+        .nav-links a:hover::after,.nav-links a.active::after{width:100%}
+        .nav-links a.active{color:#fff}
+        .nav-right{display:flex;align-items:center;gap:14px}
+        .status-badge{
+            display:flex;align-items:center;gap:6px;padding:6px 14px;
+            background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.15);
+            border-radius:50px;font-size:0.7rem;color:var(--green);font-weight:500;
+        }
+        .status-dot{
+            width:6px;height:6px;background:var(--green);border-radius:50%;
+            box-shadow:0 0 8px var(--green);animation:pulse 2s infinite;
+        }
+        @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.6;transform:scale(1.4)}}
+        .nav-btn{
+            padding:9px 22px;background:var(--purple);border:none;border-radius:10px;
+            color:#fff;font-size:0.78rem;font-weight:600;text-decoration:none;
+            transition:var(--transition);box-shadow:0 4px 20px rgba(124,58,237,0.3);
+        }
+        .nav-btn:hover{transform:translateY(-2px);box-shadow:var(--glow-purple)}
+        .mobile-toggle{display:none;flex-direction:column;gap:5px;cursor:pointer;z-index:1001}
+        .mobile-toggle span{width:22px;height:2px;background:#fff;border-radius:2px;transition:all 0.3s}
+
+        /* === HERO === */
+        .hero{
+            min-height:100vh;display:flex;align-items:center;justify-content:center;
+            padding:140px 20px 100px;position:relative;
+        }
+        .hero-inner{text-align:center;position:relative;z-index:2;max-width:800px}
+
+        /* PFP */
+        .pfp-wrap{
+            position:relative;width:180px;height:180px;margin:0 auto 45px;
+        }
+        .pfp-glow{
+            position:absolute;inset:-20px;border-radius:50%;
+            background:conic-gradient(from 0deg,var(--purple),var(--cyan),var(--pink),var(--purple));
+            animation:pfpSpin 4s linear infinite;opacity:0.6;filter:blur(2px);
+        }
+        .pfp-glow::after{
+            content:'';position:absolute;inset:4px;border-radius:50%;background:#000;
+        }
+        @keyframes pfpSpin{to{transform:rotate(360deg)}}
+        .pfp-img{
+            position:relative;z-index:2;width:180px;height:180px;border-radius:50%;
+            overflow:hidden;border:3px solid rgba(124,58,237,0.3);
+            box-shadow:0 0 50px rgba(124,58,237,0.3),inset 0 0 30px rgba(0,0,0,0.8);
+        }
+        .pfp-img img{width:100%;height:100%;object-fit:cover}
+        .pfp-ring{
+            position:absolute;inset:-35px;border-radius:50%;z-index:1;
+            border:1px solid rgba(124,58,237,0.15);
+            animation:pfpSpin 8s linear infinite reverse;
+        }
+        .pfp-ring::before{
+            content:'';position:absolute;top:0;left:50%;width:8px;height:8px;
+            background:var(--purple);border-radius:50%;transform:translateX(-50%);
+            box-shadow:0 0 12px var(--purple);
+        }
+        .pfp-ring-2{
+            position:absolute;inset:-55px;border-radius:50%;z-index:1;
+            border:1px dashed rgba(6,182,212,0.1);
+            animation:pfpSpin 12s linear infinite;
+        }
+
+        .hero-eyebrow{
+            font-family:'JetBrains Mono',monospace;font-size:0.75rem;
+            color:var(--purple-glow);letter-spacing:3px;margin-bottom:16px;
+            text-transform:uppercase;
+        }
+        .hero-title{
+            font-family:'Outfit',sans-serif;font-size:clamp(3rem,7vw,5.5rem);
+            font-weight:900;letter-spacing:-3px;line-height:1;margin-bottom:16px;
+            background:linear-gradient(180deg,#ffffff 0%,rgba(255,255,255,0.6) 100%);
+            -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+            text-shadow:0 0 80px rgba(124,58,237,0.3);
+        }
+        .hero-sub{
+            font-size:1.05rem;color:var(--text-dim);margin-bottom:28px;line-height:1.6;
+        }
+        .hero-sub strong{color:var(--purple-glow);font-weight:600}
 
         /* Terminal */
-        .terminal-box {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 24px;
-            background: rgba(0, 0, 0, 0.5);
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.85rem;
-            margin-bottom: 40px;
-            backdrop-filter: blur(10px);
+        .terminal{
+            display:inline-flex;align-items:center;gap:8px;padding:10px 20px;
+            background:rgba(10,10,20,0.8);border:1px solid var(--border);
+            border-radius:10px;font-family:'JetBrains Mono',monospace;font-size:0.78rem;
+            margin-bottom:35px;backdrop-filter:blur(10px);
         }
-
-        .terminal-prompt { color: var(--success); }
-        .terminal-typing { color: var(--text-secondary); }
-        .terminal-cursor {
-            display: inline-block;
-            width: 2px;
-            height: 16px;
-            background: var(--primary);
-            animation: blink 1s step-end infinite;
-            vertical-align: middle;
+        .term-prompt{color:var(--green)}
+        .term-text{color:var(--text-dim)}
+        .term-cursor{
+            width:2px;height:14px;background:var(--purple);
+            animation:blink 1s step-end infinite;display:inline-block;vertical-align:middle;
         }
+        @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
 
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-
-        /* Hero tags */
-        .hero-tags {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-bottom: 40px;
+        /* Tags */
+        .tags{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:35px}
+        .tag{
+            padding:7px 14px;background:rgba(124,58,237,0.05);
+            border:1px solid rgba(124,58,237,0.12);border-radius:50px;
+            font-size:0.72rem;color:var(--text-dim);font-weight:500;
+            transition:var(--transition);display:flex;align-items:center;gap:5px;
         }
-
-        .hero-tag {
-            padding: 8px 16px;
-            background: rgba(139, 92, 246, 0.06);
-            border: 1px solid rgba(139, 92, 246, 0.15);
-            border-radius: 50px;
-            font-size: 0.78rem;
-            color: var(--text-secondary);
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: var(--transition-smooth);
-            backdrop-filter: blur(10px);
-        }
-
-        .hero-tag:hover {
-            background: rgba(139, 92, 246, 0.15);
-            border-color: var(--primary);
-            color: #fff;
-            transform: translateY(-3px) scale(1.03);
-            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.2);
+        .tag:hover{
+            background:rgba(124,58,237,0.12);border-color:var(--purple);
+            color:#fff;transform:translateY(-3px);
+            box-shadow:0 8px 25px rgba(124,58,237,0.2);
         }
 
         /* CTA */
-        .hero-cta {
-            display: flex;
-            gap: 16px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .btn-primary {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 16px 36px;
-            background: linear-gradient(135deg, var(--primary), var(--neon-purple));
-            border: none;
-            border-radius: 14px;
-            color: #fff;
-            font-size: 0.95rem;
-            font-weight: 600;
-            text-decoration: none;
-            transition: var(--transition-smooth);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-primary::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.7s ease;
-        }
-
-        .btn-primary:hover::before { left: 100%; }
-        .btn-primary:hover {
-            transform: translateY(-4px) scale(1.02);
-            box-shadow: 0 20px 60px rgba(139, 92, 246, 0.5);
-        }
-
-        .btn-secondary {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 16px 36px;
-            background: transparent;
-            border: 1px solid var(--glass-border);
-            border-radius: 14px;
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            font-weight: 500;
-            text-decoration: none;
-            transition: var(--transition-smooth);
-            backdrop-filter: blur(10px);
-        }
-
-        .btn-secondary:hover {
-            border-color: var(--primary);
-            color: #fff;
-            background: rgba(139, 92, 246, 0.08);
-            transform: translateY(-4px);
-            box-shadow: 0 10px 40px rgba(139, 92, 246, 0.15);
-        }
-
-        /* Scroll indicator */
-        .scroll-indicator {
-            position: absolute;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            color: var(--text-muted);
-            font-size: 0.65rem;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            animation: floatY 3s ease-in-out infinite;
-        }
-
-        .scroll-mouse {
-            width: 22px;
-            height: 36px;
-            border: 2px solid var(--text-muted);
-            border-radius: 12px;
-            position: relative;
-        }
-
-        .scroll-mouse::after {
-            content: '';
-            position: absolute;
-            top: 6px;
-            left: 50%;
-            width: 3px;
-            height: 8px;
-            background: var(--primary);
-            border-radius: 3px;
-            transform: translateX(-50%);
-            animation: scrollDot 2s ease-in-out infinite;
-        }
-
-        @keyframes floatY {
-            0%, 100% { transform: translateX(-50%) translateY(0); }
-            50% { transform: translateX(-50%) translateY(10px); }
-        }
-
-        @keyframes scrollDot {
-            0% { top: 6px; opacity: 1; }
-            100% { top: 20px; opacity: 0; }
-        }
-
-        /* ===== MARQUEE ===== */
-        .marquee-section {
-            padding: 25px 0;
-            overflow: hidden;
-            border-top: 1px solid var(--glass-border);
-            border-bottom: 1px solid var(--glass-border);
-            position: relative;
-            z-index: 2;
-        }
-
-        .marquee-track {
-            display: flex;
-            animation: marquee 25s linear infinite;
-            width: max-content;
-        }
-
-        .marquee-item {
-            padding: 0 50px;
-            font-family: 'Outfit', sans-serif;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--text-muted);
-            white-space: nowrap;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            opacity: 0.6;
-        }
-
-        .marquee-item .dot {
-            width: 5px;
-            height: 5px;
-            background: var(--primary);
-            border-radius: 50%;
-            box-shadow: 0 0 8px var(--primary);
-        }
-
-        @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-
-        /* ===== STATS ===== */
-        .stats-section {
-            padding: 80px 20px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .stat-card {
-            text-align: center;
-            padding: 35px 20px;
-            background: var(--bg-card);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius-lg);
-            backdrop-filter: blur(20px);
-            transition: var(--transition-smooth);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--primary), transparent);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-
-        .stat-card:hover::before { opacity: 1; }
-        .stat-card:hover {
-            transform: translateY(-8px);
-            border-color: var(--glass-border-hover);
-            box-shadow: var(--shadow-glow);
-        }
-
-        .stat-value {
-            font-family: 'Outfit', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--primary), var(--neon-blue));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 6px;
-        }
-
-        .stat-label {
-            font-size: 0.72rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: 500;
-        }
-
-        /* ===== SECTIONS COMMON ===== */
-        .section {
-            padding: 120px 20px;
-            position: relative;
-        }
-
-        .section-container {
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 80px;
-        }
-
-        .section-eyebrow {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.72rem;
-            color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: 5px;
-            margin-bottom: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-        }
-
-        .section-eyebrow::before,
-        .section-eyebrow::after {
-            content: '';
-            width: 40px;
-            height: 1px;
-            background: linear-gradient(90deg, var(--primary), transparent);
-        }
-
-        .section-eyebrow::before {
-            background: linear-gradient(90deg, transparent, var(--primary));
-        }
-
-        .section-title {
-            font-family: 'Outfit', sans-serif;
-            font-size: clamp(2.5rem, 5vw, 3.5rem);
-            font-weight: 800;
-            letter-spacing: -1.5px;
-            margin-bottom: 16px;
-            background: linear-gradient(135deg, #fff, var(--text-secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .section-subtitle {
-            font-size: 1rem;
-            color: var(--text-secondary);
-            max-width: 500px;
-            margin: 0 auto;
-            line-height: 1.7;
-        }
-
-        /* ===== SERVICES BENTO GRID ===== */
-        .bento-grid {
-            display: grid;
-            grid-template-columns: repeat(12, 1fr);
-            gap: 20px;
-        }
-
-        .bento-card {
-            background: var(--bg-card);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius-xl);
-            padding: 40px 35px;
-            backdrop-filter: blur(20px);
-            transition: var(--transition-smooth);
-            position: relative;
-            overflow: hidden;
-            grid-column: span 6;
-        }
-
-        .bento-card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at 50% 0%, rgba(139, 92, 246, 0.08), transparent 60%);
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-
-        .bento-card::after {
-            content: '';
-            position: absolute;
-            inset: -1px;
-            border-radius: var(--radius-xl);
-            background: conic-gradient(from 180deg, transparent 60%, var(--primary) 80%, transparent 100%);
-            z-index: -1;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-
-        .bento-card:hover::before { opacity: 1; }
-        .bento-card:hover::after { opacity: 0.3; }
-        .bento-card:hover {
-            transform: translateY(-8px) scale(1.01);
-            border-color: var(--glass-border-hover);
-            box-shadow: 0 30px 80px rgba(139, 92, 246, 0.12);
-        }
-
-        .bento-card.featured {
-            grid-column: span 12;
-            text-align: center;
-            padding: 60px 40px;
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.05), rgba(6, 182, 212, 0.03));
-        }
-
-        .bento-icon {
-            width: 64px;
-            height: 64px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 18px;
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.12), rgba(6, 182, 212, 0.08));
-            border: 1px solid rgba(139, 92, 246, 0.2);
-            font-size: 1.8rem;
-            margin-bottom: 22px;
-            transition: var(--transition-smooth);
-        }
-
-        .bento-card:hover .bento-icon {
-            transform: scale(1.15) rotate(5deg);
-            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3);
-        }
-
-        .bento-card.featured .bento-icon { margin: 0 auto 22px; }
-
-        .bento-title {
-            font-family: 'Outfit', sans-serif;
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-bottom: 12px;
-            letter-spacing: -0.3px;
-        }
-
-        .bento-desc {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            line-height: 1.7;
-            margin-bottom: 22px;
-        }
-
-        .bento-tags {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .bento-card.featured .bento-tags { justify-content: center; }
-
-        .bento-tag {
-            padding: 5px 12px;
-            background: rgba(139, 92, 246, 0.08);
-            border: 1px solid rgba(139, 92, 246, 0.15);
-            border-radius: 8px;
-            font-size: 0.68rem;
-            color: var(--primary-light);
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .bento-tag:hover {
-            background: rgba(139, 92, 246, 0.2);
-            transform: translateY(-2px);
-        }
-
-        /* ===== FEATURES GRID ===== */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-        }
-
-        .feature-card {
-            padding: 35px 28px;
-            background: var(--bg-card);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius-lg);
-            text-align: center;
-            backdrop-filter: blur(20px);
-            transition: var(--transition-smooth);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 50%;
-            width: 100px;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--primary), transparent);
-            transform: translateX(-50%);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-
-        .feature-card:hover::before { opacity: 1; }
-        .feature-card:hover {
-            transform: translateY(-8px);
-            border-color: var(--glass-border-hover);
-            box-shadow: var(--shadow-glow);
-        }
-
-        .feature-icon {
-            width: 56px;
-            height: 56px;
-            margin: 0 auto 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 16px;
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(6, 182, 212, 0.05));
-            border: 1px solid rgba(139, 92, 246, 0.15);
-            font-size: 1.5rem;
-            transition: var(--transition-smooth);
-        }
-
-        .feature-card:hover .feature-icon {
-            transform: scale(1.2) rotate(10deg);
-            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
-        }
-
-        .feature-title {
-            font-family: 'Outfit', sans-serif;
-            font-size: 1.05rem;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-
-        .feature-desc {
-            font-size: 0.82rem;
-            color: var(--text-muted);
-            line-height: 1.6;
-        }
-
-        /* ===== VOUCHES / TESTIMONIALS ===== */
-        .vouches-track {
-            display: flex;
-            gap: 20px;
-            animation: vouchScroll 30s linear infinite;
-            width: max-content;
-        }
-
-        .vouch-card {
-            width: 320px;
-            flex-shrink: 0;
-            padding: 30px;
-            background: var(--bg-card);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius-lg);
-            backdrop-filter: blur(20px);
-            transition: var(--transition-smooth);
-        }
-
-        .vouch-card:hover {
-            border-color: var(--glass-border-hover);
-            transform: translateY(-5px);
-        }
-
-        .vouch-stars {
-            display: flex;
-            gap: 3px;
-            margin-bottom: 14px;
-        }
-
-        .vouch-stars svg {
-            width: 16px;
-            height: 16px;
-            fill: #fbbf24;
-        }
-
-        .vouch-text {
-            font-size: 0.88rem;
-            color: var(--text-secondary);
-            line-height: 1.7;
-            margin-bottom: 18px;
-            font-style: italic;
-        }
-
-        .vouch-author {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .vouch-avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8rem;
-            font-weight: 700;
-        }
-
-        .vouch-name {
-            font-size: 0.82rem;
-            font-weight: 600;
-        }
-
-        .vouch-role {
-            font-size: 0.7rem;
-            color: var(--text-muted);
-        }
-
-        @keyframes vouchScroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-
-        /* ===== CONTACT ===== */
-        .contact-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            align-items: start;
-        }
-
-        .contact-info-card {
-            padding: 45px;
-            background: var(--bg-card);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius-xl);
-            backdrop-filter: blur(20px);
-        }
-
-        .contact-info-title {
-            font-family: 'Outfit', sans-serif;
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 14px;
-            letter-spacing: -0.5px;
-        }
-
-        .contact-info-desc {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            line-height: 1.7;
-            margin-bottom: 30px;
-        }
-
-        .contact-detail {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            margin-bottom: 14px;
-            padding: 14px 18px;
-            background: rgba(139, 92, 246, 0.04);
-            border-radius: 14px;
-            transition: all 0.3s ease;
-            border: 1px solid transparent;
-        }
-
-        .contact-detail:hover {
-            background: rgba(139, 92, 246, 0.08);
-            transform: translateX(5px);
-            border-color: rgba(139, 92, 246, 0.1);
-        }
-
-        .contact-detail-icon {
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 12px;
-            background: rgba(139, 92, 246, 0.1);
-            font-size: 1rem;
-            flex-shrink: 0;
-        }
-
-        .contact-detail-text {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-        }
-
-        .contact-links-side {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .contact-link-card {
-            display: flex;
-            align-items: center;
-            gap: 18px;
-            padding: 26px 30px;
-            background: var(--bg-card);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius-lg);
-            text-decoration: none;
-            color: var(--text-primary);
-            backdrop-filter: blur(20px);
-            transition: var(--transition-smooth);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .contact-link-card::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 3px;
-            background: linear-gradient(180deg, var(--primary), var(--secondary));
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-
-        .contact-link-card:hover::before { opacity: 1; }
-        .contact-link-card:hover {
-            transform: translateX(8px) scale(1.01);
-            border-color: var(--glass-border-hover);
-            box-shadow: 0 15px 50px rgba(139, 92, 246, 0.12);
-        }
-
-        .contact-link-icon {
-            width: 54px;
-            height: 54px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 16px;
-            flex-shrink: 0;
-            transition: var(--transition-smooth);
-        }
-
-        .contact-link-icon.tg {
-            background: linear-gradient(135deg, rgba(0, 136, 204, 0.12), rgba(0, 136, 204, 0.04));
-            border: 1px solid rgba(0, 136, 204, 0.2);
-        }
-
-        .contact-link-icon.wa {
-            background: linear-gradient(135deg, rgba(37, 211, 102, 0.12), rgba(37, 211, 102, 0.04));
-            border: 1px solid rgba(37, 211, 102, 0.2);
-        }
-
-        .contact-link-card:hover .contact-link-icon { transform: scale(1.1) rotate(5deg); }
-
-        .contact-link-icon svg { width: 26px; height: 26px; }
-        .contact-link-icon.tg svg { fill: #0088cc; }
-        .contact-link-icon.wa svg { fill: #25d366; }
-
-        .contact-link-info { flex: 1; }
-        .contact-link-name { font-weight: 600; font-size: 1rem; margin-bottom: 3px; }
-        .contact-link-desc { font-size: 0.78rem; color: var(--text-muted); }
-
-        .contact-link-arrow {
-            font-size: 1.3rem;
-            color: var(--text-muted);
-            transition: all 0.3s ease;
-        }
-
-        .contact-link-card:hover .contact-link-arrow {
-            color: var(--primary);
-            transform: translateX(5px);
-        }
-
-        /* ===== FOOTER ===== */
-        .footer {
-            padding: 80px 20px 30px;
-            text-align: center;
-            position: relative;
-            z-index: 2;
-            border-top: 1px solid var(--glass-border);
-        }
-
-        .footer-brand {
-            font-family: 'Outfit', sans-serif;
-            font-size: 2.2rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #fff, var(--primary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 12px;
-        }
-
-        .footer-desc {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            margin-bottom: 30px;
-            max-width: 400px;
-            margin-left: auto;
-            margin-right: auto;
-            line-height: 1.6;
-        }
-
-        .footer-links {
-            display: flex;
-            gap: 30px;
-            justify-content: center;
-            margin-bottom: 40px;
-        }
-
-        .footer-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 0.85rem;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .footer-links a:hover { color: var(--primary); }
-
-        .footer-copy {
-            color: var(--text-muted);
-            font-size: 0.72rem;
-            opacity: 0.5;
-            letter-spacing: 0.5px;
-        }
-
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 1024px) {
-            .bento-card { grid-column: span 6; }
-            .bento-card.featured { grid-column: span 12; }
-        }
-
-        @media (max-width: 900px) {
-            .contact-grid { grid-template-columns: 1fr; }
-            .features-grid { grid-template-columns: repeat(2, 1fr); }
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
-            .navbar { padding: 16px 25px; }
-            .navbar.scrolled { padding: 12px 25px; }
-        }
-
-        @media (max-width: 768px) {
-            .nav-menu {
-                display: none;
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                flex-direction: column;
-                background: rgba(3, 0, 20, 0.98);
-                backdrop-filter: blur(40px);
-                padding: 100px 40px;
-                gap: 30px;
-                align-items: center;
-                justify-content: center;
+        .cta-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+        .btn{
+            display:inline-flex;align-items:center;gap:8px;padding:14px 32px;
+            border-radius:12px;font-size:0.88rem;font-weight:600;text-decoration:none;
+            transition:var(--transition);position:relative;overflow:hidden;
+        }
+        .btn-glow{
+            background:var(--purple);color:#fff;
+            box-shadow:0 4px 25px rgba(124,58,237,0.4);
+        }
+        .btn-glow::before{
+            content:'';position:absolute;inset:0;
+            background:linear-gradient(135deg,rgba(255,255,255,0.15),transparent);
+            opacity:0;transition:opacity 0.3s;
+        }
+        .btn-glow:hover{
+            transform:translateY(-3px) scale(1.02);
+            box-shadow:0 10px 50px rgba(124,58,237,0.6);
+        }
+        .btn-glow:hover::before{opacity:1}
+        .btn-ghost{
+            background:transparent;color:var(--text-dim);
+            border:1px solid var(--border);backdrop-filter:blur(10px);
+        }
+        .btn-ghost:hover{
+            border-color:var(--purple);color:#fff;
+            background:rgba(124,58,237,0.05);transform:translateY(-3px);
+        }
+
+        /* Scroll */
+        .scroll-hint{
+            position:absolute;bottom:35px;left:50%;transform:translateX(-50%);
+            display:flex;flex-direction:column;align-items:center;gap:6px;
+        }
+        .scroll-line{
+            width:1px;height:40px;background:linear-gradient(180deg,var(--purple),transparent);
+            animation:scrollPulse 2s ease-in-out infinite;
+        }
+        @keyframes scrollPulse{0%,100%{opacity:0.3;height:40px}50%{opacity:1;height:50px}}
+        .scroll-text{font-size:0.6rem;color:var(--text-muted);letter-spacing:3px;text-transform:uppercase}
+
+        /* === MARQUEE === */
+        .marquee{
+            padding:18px 0;overflow:hidden;
+            border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+            position:relative;z-index:2;
+        }
+        .marquee-inner{display:flex;animation:marqueeScroll 20s linear infinite;width:max-content}
+        .marquee-item{
+            padding:0 40px;font-family:'Outfit',sans-serif;font-size:0.9rem;
+            font-weight:600;color:var(--text-muted);white-space:nowrap;
+            display:flex;align-items:center;gap:12px;
+        }
+        .marquee-dot{
+            width:4px;height:4px;background:var(--purple);border-radius:50%;
+            box-shadow:0 0 6px var(--purple);
+        }
+        @keyframes marqueeScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+        /* === STATS === */
+        .stats{padding:70px 20px;position:relative;z-index:2}
+        .stats-grid{
+            display:grid;grid-template-columns:repeat(4,1fr);gap:16px;max-width:900px;margin:0 auto;
+        }
+        .stat{
+            text-align:center;padding:30px 16px;
+            background:var(--bg-card);border:1px solid var(--border);
+            border-radius:var(--radius);backdrop-filter:blur(20px);
+            transition:var(--transition);position:relative;overflow:hidden;
+        }
+        .stat::after{
+            content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
+            width:50px;height:1px;background:linear-gradient(90deg,transparent,var(--purple),transparent);
+            opacity:0;transition:opacity 0.4s;
+        }
+        .stat:hover{transform:translateY(-5px);border-color:var(--border-hover);box-shadow:var(--glow-purple)}
+        .stat:hover::after{opacity:1}
+        .stat-num{
+            font-family:'Outfit',sans-serif;font-size:2.2rem;font-weight:800;
+            background:linear-gradient(135deg,#fff,var(--purple-glow));
+            -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+            margin-bottom:4px;
+        }
+        .stat-label{font-size:0.65rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:2px;font-weight:500}
+
+        /* === SECTIONS === */
+        .section{padding:100px 20px;position:relative;z-index:2}
+        .container{max-width:1000px;margin:0 auto}
+        .sec-header{text-align:center;margin-bottom:60px}
+        .sec-eyebrow{
+            font-family:'JetBrains Mono',monospace;font-size:0.68rem;
+            color:var(--purple);text-transform:uppercase;letter-spacing:4px;margin-bottom:12px;
+        }
+        .sec-title{
+            font-family:'Outfit',sans-serif;font-size:clamp(2rem,4vw,3rem);
+            font-weight:800;letter-spacing:-1px;margin-bottom:12px;
+        }
+        .sec-desc{font-size:0.9rem;color:var(--text-dim);max-width:450px;margin:0 auto;line-height:1.7}
+
+        /* === SERVICES === */
+        .services-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+        .service-card{
+            padding:35px 30px;background:var(--bg-card);border:1px solid var(--border);
+            border-radius:20px;backdrop-filter:blur(20px);transition:var(--transition);
+            position:relative;overflow:hidden;
+        }
+        .service-card::before{
+            content:'';position:absolute;top:0;left:0;right:0;height:1px;
+            background:linear-gradient(90deg,transparent,var(--purple),transparent);
+            opacity:0;transition:opacity 0.4s;
+        }
+        .service-card:hover{
+            transform:translateY(-6px);border-color:var(--border-hover);
+            box-shadow:0 20px 60px rgba(124,58,237,0.1);
+        }
+        .service-card:hover::before{opacity:1}
+        .service-card.main-card{grid-column:span 2;text-align:center;padding:50px 40px}
+        .svc-icon{
+            width:56px;height:56px;display:flex;align-items:center;justify-content:center;
+            border-radius:14px;background:rgba(124,58,237,0.08);
+            border:1px solid rgba(124,58,237,0.15);font-size:1.5rem;margin-bottom:18px;
+            transition:var(--transition);
+        }
+        .service-card.main-card .svc-icon{margin:0 auto 18px}
+        .service-card:hover .svc-icon{
+            transform:scale(1.1) rotate(5deg);
+            box-shadow:0 8px 25px rgba(124,58,237,0.25);
+        }
+        .svc-title{font-family:'Outfit',sans-serif;font-size:1.2rem;font-weight:700;margin-bottom:10px}
+        .svc-desc{font-size:0.82rem;color:var(--text-dim);line-height:1.7;margin-bottom:16px}
+        .svc-tags{display:flex;gap:6px;flex-wrap:wrap}
+        .service-card.main-card .svc-tags{justify-content:center}
+        .svc-tag{
+            padding:4px 10px;background:rgba(124,58,237,0.06);
+            border:1px solid rgba(124,58,237,0.12);border-radius:6px;
+            font-size:0.62rem;color:var(--purple-glow);font-family:'JetBrains Mono',monospace;
+            text-transform:uppercase;letter-spacing:0.5px;
+        }
+
+        /* === FEATURES === */
+        .features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+        .feat{
+            padding:30px 24px;background:var(--bg-card);border:1px solid var(--border);
+            border-radius:var(--radius);text-align:center;backdrop-filter:blur(20px);
+            transition:var(--transition);position:relative;overflow:hidden;
+        }
+        .feat::before{
+            content:'';position:absolute;inset:0;
+            background:radial-gradient(circle at 50% 0%,rgba(124,58,237,0.06),transparent 70%);
+            opacity:0;transition:opacity 0.4s;
+        }
+        .feat:hover{transform:translateY(-6px);border-color:var(--border-hover);box-shadow:var(--glow-purple)}
+        .feat:hover::before{opacity:1}
+        .feat-icon{
+            width:48px;height:48px;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;
+            border-radius:12px;background:rgba(124,58,237,0.08);border:1px solid rgba(124,58,237,0.12);
+            font-size:1.3rem;transition:var(--transition);
+        }
+        .feat:hover .feat-icon{transform:scale(1.15);box-shadow:0 6px 20px rgba(124,58,237,0.3)}
+        .feat-title{font-family:'Outfit',sans-serif;font-size:0.95rem;font-weight:600;margin-bottom:6px}
+        .feat-desc{font-size:0.75rem;color:var(--text-muted);line-height:1.6}
+
+        /* === VOUCHES === */
+        .vouches-wrap{overflow:hidden;padding:20px 0}
+        .vouches-track{display:flex;gap:16px;animation:vouchSlide 35s linear infinite;width:max-content}
+        .vouch{
+            width:300px;flex-shrink:0;padding:28px;background:var(--bg-card);
+            border:1px solid var(--border);border-radius:var(--radius);
+            backdrop-filter:blur(20px);transition:var(--transition);
+        }
+        .vouch:hover{border-color:var(--border-hover);transform:translateY(-4px)}
+        .vouch-stars{display:flex;gap:2px;margin-bottom:12px}
+        .vouch-stars svg{width:14px;height:14px;fill:#fbbf24}
+        .vouch-text{font-size:0.82rem;color:var(--text-dim);line-height:1.7;margin-bottom:16px;font-style:italic}
+        .vouch-author{display:flex;align-items:center;gap:10px}
+        .vouch-avatar{
+            width:34px;height:34px;border-radius:50%;
+            background:linear-gradient(135deg,var(--purple),var(--cyan));
+            display:flex;align-items:center;justify-content:center;
+            font-size:0.75rem;font-weight:700;
+        }
+        .vouch-name{font-size:0.78rem;font-weight:600}
+        .vouch-role{font-size:0.65rem;color:var(--text-muted)}
+        @keyframes vouchSlide{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+        /* === CONTACT === */
+        .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:start}
+        .contact-left{
+            padding:40px;background:var(--bg-card);border:1px solid var(--border);
+            border-radius:20px;backdrop-filter:blur(20px);
+        }
+        .contact-title{font-family:'Outfit',sans-serif;font-size:1.6rem;font-weight:700;margin-bottom:10px}
+        .contact-desc{font-size:0.85rem;color:var(--text-dim);line-height:1.7;margin-bottom:24px}
+        .contact-item{
+            display:flex;align-items:center;gap:12px;padding:12px 16px;
+            background:rgba(124,58,237,0.03);border-radius:12px;margin-bottom:10px;
+            transition:var(--transition);border:1px solid transparent;
+        }
+        .contact-item:hover{background:rgba(124,58,237,0.06);transform:translateX(4px);border-color:rgba(124,58,237,0.1)}
+        .contact-item-icon{
+            width:36px;height:36px;display:flex;align-items:center;justify-content:center;
+            border-radius:10px;background:rgba(124,58,237,0.08);font-size:0.9rem;flex-shrink:0;
+        }
+        .contact-item-text{font-size:0.8rem;color:var(--text-dim)}
+        .contact-right{display:flex;flex-direction:column;gap:14px}
+        .contact-link{
+            display:flex;align-items:center;gap:16px;padding:22px 26px;
+            background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);
+            text-decoration:none;color:var(--text);backdrop-filter:blur(20px);
+            transition:var(--transition);position:relative;overflow:hidden;
+        }
+        .contact-link::before{
+            content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
+            background:linear-gradient(180deg,var(--purple),var(--cyan));
+            opacity:0;transition:opacity 0.3s;
+        }
+        .contact-link:hover{
+            transform:translateX(6px);border-color:var(--border-hover);
+            box-shadow:0 10px 40px rgba(124,58,237,0.1);
+        }
+        .contact-link:hover::before{opacity:1}
+        .cl-icon{
+            width:48px;height:48px;display:flex;align-items:center;justify-content:center;
+            border-radius:14px;flex-shrink:0;transition:var(--transition);
+        }
+        .cl-icon.tg{background:rgba(0,136,204,0.08);border:1px solid rgba(0,136,204,0.15)}
+        .cl-icon.wa{background:rgba(37,211,102,0.08);border:1px solid rgba(37,211,102,0.15)}
+        .contact-link:hover .cl-icon{transform:scale(1.1) rotate(3deg)}
+        .cl-icon svg{width:22px;height:22px}
+        .cl-icon.tg svg{fill:#0088cc}
+        .cl-icon.wa svg{fill:#25d366}
+        .cl-info{flex:1}
+        .cl-name{font-weight:600;font-size:0.92rem;margin-bottom:2px}
+        .cl-desc{font-size:0.72rem;color:var(--text-muted)}
+        .cl-arrow{color:var(--text-muted);font-size:1.2rem;transition:var(--transition)}
+        .contact-link:hover .cl-arrow{color:var(--purple);transform:translateX(4px)}
+
+        /* === FOOTER === */
+        .footer{
+            padding:60px 20px 25px;text-align:center;position:relative;z-index:2;
+            border-top:1px solid var(--border);
+        }
+        .footer-brand{
+            font-family:'Outfit',sans-serif;font-size:1.8rem;font-weight:800;
+            background:linear-gradient(135deg,#fff,var(--purple));
+            -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+            margin-bottom:8px;
+        }
+        .footer-desc{color:var(--text-muted);font-size:0.8rem;margin-bottom:20px;line-height:1.6}
+        .footer-links{display:flex;gap:24px;justify-content:center;margin-bottom:30px}
+        .footer-links a{
+            color:var(--text-dim);text-decoration:none;font-size:0.8rem;transition:var(--transition);
+        }
+        .footer-links a:hover{color:var(--purple)}
+        .footer-copy{color:var(--text-muted);font-size:0.65rem;opacity:0.5}
+
+        /* === MUSIC PLAYER === */
+        .player{
+            position:fixed;bottom:24px;right:24px;z-index:9999;
+            display:flex;align-items:center;gap:10px;
+        }
+        .player-info{
+            display:none;align-items:center;gap:8px;padding:8px 16px;
+            background:rgba(8,8,16,0.95);backdrop-filter:blur(30px);
+            border:1px solid var(--border);border-radius:50px;
+        }
+        .player-info.show{display:flex}
+        .player-viz{display:flex;align-items:center;gap:2px;height:18px}
+        .player-viz .vbar{
+            width:3px;height:4px;background:var(--purple);border-radius:2px;
+            transition:height 0.15s;
+        }
+        .player-viz.active .vbar{animation:vizBounce 0.7s ease-in-out infinite}
+        .player-viz.active .vbar:nth-child(1){animation-delay:0s}
+        .player-viz.active .vbar:nth-child(2){animation-delay:0.1s}
+        .player-viz.active .vbar:nth-child(3){animation-delay:0.2s}
+        .player-viz.active .vbar:nth-child(4){animation-delay:0.15s}
+        @keyframes vizBounce{0%,100%{height:4px}50%{height:16px}}
+        .player-title{font-size:0.65rem;font-weight:500;color:var(--text-dim);max-width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+        .player-btns{display:flex;gap:4px}
+        .player-btn{
+            width:26px;height:26px;display:flex;align-items:center;justify-content:center;
+            background:none;border:none;color:var(--text-dim);cursor:pointer;
+            border-radius:50%;transition:all 0.2s;
+        }
+        .player-btn:hover{color:#fff;background:rgba(124,58,237,0.15)}
+        .player-btn svg{width:12px;height:12px}
+        .player-toggle{
+            width:46px;height:46px;border-radius:50%;border:none;cursor:pointer;
+            background:var(--purple);color:#fff;
+            display:flex;align-items:center;justify-content:center;
+            transition:var(--transition);box-shadow:0 4px 20px rgba(124,58,237,0.4);
+            position:relative;
+        }
+        .player-toggle::before{
+            content:'';position:absolute;inset:-3px;border-radius:50%;
+            background:conic-gradient(var(--purple),var(--cyan),var(--pink),var(--purple));
+            z-index:-1;opacity:0;transition:opacity 0.3s;animation:spin 3s linear infinite;
+        }
+        .player-toggle.playing::before{opacity:0.6}
+        .player-toggle:hover{transform:scale(1.1);box-shadow:var(--glow-purple)}
+        .player-toggle svg{width:20px;height:20px;position:relative;z-index:1}
+
+        /* === RESPONSIVE === */
+        @media(max-width:900px){
+            .contact-grid{grid-template-columns:1fr}
+            .features-grid{grid-template-columns:repeat(2,1fr)}
+            .stats-grid{grid-template-columns:repeat(2,1fr)}
+            .nav{padding:16px 20px}
+            .nav.scrolled{padding:12px 20px}
+        }
+        @media(max-width:768px){
+            .nav-links{
+                display:none;position:fixed;inset:0;flex-direction:column;
+                background:rgba(0,0,0,0.98);backdrop-filter:blur(40px);
+                padding:100px 40px;gap:28px;align-items:center;justify-content:center;
             }
-
-            .nav-menu.active { display: flex; }
-            .nav-menu a { font-size: 1.2rem; }
-            .nav-toggle { display: flex; }
-            .nav-right { display: none; }
-
-            .bento-grid { grid-template-columns: 1fr; }
-            .bento-card { grid-column: span 1 !important; }
-            .features-grid { grid-template-columns: 1fr; }
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
-
-            .section { padding: 80px 16px; }
-            .hero-title { letter-spacing: -2px; }
-
-            body { cursor: auto; }
-            .cursor-outer, .cursor-inner { display: none; }
-
-            .music-player-expanded { display: none !important; }
-            .music-player { bottom: 20px; right: 20px; }
-            .music-toggle { width: 44px; height: 44px; }
+            .nav-links.open{display:flex}
+            .nav-links a{font-size:1.1rem}
+            .mobile-toggle{display:flex}
+            .nav-right{display:none}
+            .services-grid{grid-template-columns:1fr}
+            .service-card.main-card{grid-column:span 1}
+            .features-grid{grid-template-columns:1fr}
+            .stats-grid{grid-template-columns:repeat(2,1fr)}
+            .section{padding:70px 16px}
+            .player-info{display:none!important}
+        }
+        @media(max-width:480px){
+            .stats-grid{gap:10px}
+            .stat{padding:22px 12px}
+            .stat-num{font-size:1.8rem}
+            .pfp-wrap{width:140px;height:140px}
+            .pfp-img{width:140px;height:140px}
         }
 
-        @media (max-width: 480px) {
-            .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-            .stat-card { padding: 25px 15px; }
-            .stat-value { font-size: 2rem; }
-            .pfp-container { width: 160px; height: 160px; }
-            .pfp-image { width: 160px; height: 160px; }
-        }
-
-        /* ===== ANIMATIONS ===== */
-        .reveal { opacity: 0; transform: translateY(40px); }
-        .reveal.active { opacity: 1; transform: translateY(0); transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1); }
-
-        /* Smooth page load */
-        .page-loaded .main-content { opacity: 1; }
+        /* === ANIMATIONS === */
+        .fade-up{opacity:0;transform:translateY(30px);transition:all 0.7s cubic-bezier(0.16,1,0.3,1)}
+        .fade-up.visible{opacity:1;transform:translateY(0)}
     </style>
 </head>
 <body>
-    <!-- Loading Screen -->
-    <div class="loader" id="loader">
-        <div class="loader-logo">Raoki</div>
-        <div class="loader-bar-container">
-            <div class="loader-bar"></div>
-        </div>
-        <div class="loader-text">Loading Experience</div>
+    <!-- Loader -->
+    <div id="loader">
+        <div class="loader-brand">Raoki</div>
+        <div class="loader-spinner"></div>
     </div>
 
-    <!-- Custom Cursor -->
-    <div class="cursor-outer" id="cursorOuter"></div>
-    <div class="cursor-inner" id="cursorInner"></div>
-
-    <!-- Three.js Background -->
-    <canvas id="three-canvas"></canvas>
-
-    <!-- Aurora Background -->
-    <div class="aurora">
-        <div class="aurora-beam"></div>
-        <div class="aurora-beam"></div>
-        <div class="aurora-beam"></div>
-    </div>
-
-    <!-- Noise Overlay -->
-    <div class="noise-overlay"></div>
+    <!-- Background -->
+    <div class="grid-bg"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
 
     <!-- Music Player -->
-    <div class="music-player" id="musicPlayer">
-        <div class="music-player-expanded" id="musicExpanded">
-            <div class="music-visualizer" id="musicVisualizer">
-                <div class="bar"></div>
-                <div class="bar"></div>
-                <div class="bar"></div>
-                <div class="bar"></div>
-                <div class="bar"></div>
+    <div class="player">
+        <div class="player-info" id="playerInfo">
+            <div class="player-viz" id="playerViz">
+                <div class="vbar"></div><div class="vbar"></div><div class="vbar"></div><div class="vbar"></div>
             </div>
-            <div class="music-info">
-                <span class="music-title" id="musicTitle">Temple at Dawn</span>
-                <span class="music-artist">Anime Lo-Fi</span>
-            </div>
-            <div class="music-controls">
-                <button class="music-btn" id="prevBtn" title="Previous">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
-                </button>
-                <button class="music-btn" id="nextBtn" title="Next">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
-                </button>
+            <span class="player-title" id="playerTitle">Temple at Dawn</span>
+            <div class="player-btns">
+                <button class="player-btn" id="prevBtn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg></button>
+                <button class="player-btn" id="nextBtn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg></button>
             </div>
         </div>
-        <button class="music-toggle" id="musicToggle" title="Play Anime Lo-Fi">
-            <svg id="playIcon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-            <svg id="pauseIcon" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+        <button class="player-toggle" id="playerToggle" title="Play Anime Lo-Fi">
+            <svg id="iconPlay" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            <svg id="iconPause" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
         </button>
     </div>
 
-    <!-- Main Content -->
-    <div class="main-content" id="mainContent">
-        <!-- Navbar -->
-        <nav class="navbar" id="navbar">
-            <div class="nav-brand">Raoki</div>
-            <ul class="nav-menu" id="navMenu">
-                <li><a href="#home" class="active">Home</a></li>
-                <li><a href="#services">Services</a></li>
-                <li><a href="#features">Why Me</a></li>
-                <li><a href="#vouches">Vouches</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-            <div class="nav-right">
-                <div class="nav-status">
-                    <span class="status-dot"></span>
-                    Online
-                </div>
-                <a href="#contact" class="nav-cta"><span>Hire Me</span></a>
+    <!-- Nav -->
+    <nav class="nav" id="nav">
+        <div class="nav-brand">Raoki</div>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#home" class="active">Home</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#features">Why Me</a></li>
+            <li><a href="#vouches">Vouches</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="nav-right">
+            <div class="status-badge"><span class="status-dot"></span>Online</div>
+            <a href="#contact" class="nav-btn">Hire Me</a>
+        </div>
+        <div class="mobile-toggle" id="mobileToggle"><span></span><span></span><span></span></div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero" id="home">
+        <div class="hero-inner">
+            <div class="pfp-wrap">
+                <div class="pfp-glow"></div>
+                <div class="pfp-ring"></div>
+                <div class="pfp-ring-2"></div>
+                <div class="pfp-img"><img src="pfp.jpg" alt="Raoki" loading="eager"></div>
             </div>
-            <div class="nav-toggle" id="navToggle">
-                <span></span>
-                <span></span>
-                <span></span>
+            <p class="hero-eyebrow fade-up">// Elite Middleman</p>
+            <h1 class="hero-title fade-up">Raoki</h1>
+            <p class="hero-sub fade-up">Your Trusted <strong>Middleman</strong> for Secure Transactions</p>
+            <div class="terminal fade-up">
+                <span class="term-prompt">$</span>
+                <span class="term-text" id="termText"></span>
+                <span class="term-cursor"></span>
             </div>
-        </nav>
-
-        <!-- Hero -->
-        <section class="hero" id="home">
-            <div class="hero-content">
-                <div class="pfp-container">
-                    <div class="pfp-glow"></div>
-                    <div class="pfp-ring"></div>
-                    <div class="pfp-image">
-                        <img src="pfp.jpg" alt="Raoki" loading="eager">
-                    </div>
-                    <div class="pfp-particles">
-                        <div class="pfp-particle"></div>
-                        <div class="pfp-particle"></div>
-                        <div class="pfp-particle"></div>
-                        <div class="pfp-particle"></div>
-                        <div class="pfp-particle"></div>
-                        <div class="pfp-particle"></div>
-                    </div>
-                </div>
-
-                <p class="hero-greeting">// Welcome to my world</p>
-                <h1 class="hero-title"><span class="word">Raoki</span></h1>
-                <p class="hero-subtitle">Your Trusted <span class="highlight">Middleman</span> for Secure Transactions</p>
-
-                <div class="terminal-box">
-                    <span class="terminal-prompt">$</span>
-                    <span class="terminal-typing" id="terminalText"></span>
-                    <span class="terminal-cursor"></span>
-                </div>
-
-                <div class="hero-tags">
-                    <div class="hero-tag"><span>&#x1F7E2;</span> Available Now</div>
-                    <div class="hero-tag"><span>&#x1F91D;</span> Middleman</div>
-                    <div class="hero-tag"><span>&#x1F512;</span> Trusted</div>
-                    <div class="hero-tag"><span>&#x26A1;</span> Fast</div>
-                    <div class="hero-tag"><span>&#x1F4DA;</span> Learner</div>
-                    <div class="hero-tag"><span>&#x1F30D;</span> Global</div>
-                </div>
-
-                <div class="hero-cta">
-                    <a href="#contact" class="btn-primary">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                        Contact Me
-                    </a>
-                    <a href="#services" class="btn-secondary">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-                        View Services
-                    </a>
-                </div>
+            <div class="tags fade-up">
+                <span class="tag">&#x1F7E2; Available</span>
+                <span class="tag">&#x1F91D; Middleman</span>
+                <span class="tag">&#x1F512; Trusted</span>
+                <span class="tag">&#x26A1; Fast</span>
+                <span class="tag">&#x1F30D; Global</span>
+                <span class="tag">&#x1F6E1;&#xFE0F; Secure</span>
             </div>
-
-            <div class="scroll-indicator">
-                <div class="scroll-mouse"></div>
-                <span>Scroll</span>
-            </div>
-        </section>
-
-        <!-- Marquee -->
-        <div class="marquee-section">
-            <div class="marquee-track">
-                <div class="marquee-item"><span class="dot"></span> Middleman Services</div>
-                <div class="marquee-item"><span class="dot"></span> Secure Transactions</div>
-                <div class="marquee-item"><span class="dot"></span> 24/7 Available</div>
-                <div class="marquee-item"><span class="dot"></span> Trusted & Verified</div>
-                <div class="marquee-item"><span class="dot"></span> Fast Response</div>
-                <div class="marquee-item"><span class="dot"></span> Professional</div>
-                <div class="marquee-item"><span class="dot"></span> Escrow Service</div>
-                <div class="marquee-item"><span class="dot"></span> Safe Deals</div>
-                <div class="marquee-item"><span class="dot"></span> Middleman Services</div>
-                <div class="marquee-item"><span class="dot"></span> Secure Transactions</div>
-                <div class="marquee-item"><span class="dot"></span> 24/7 Available</div>
-                <div class="marquee-item"><span class="dot"></span> Trusted & Verified</div>
-                <div class="marquee-item"><span class="dot"></span> Fast Response</div>
-                <div class="marquee-item"><span class="dot"></span> Professional</div>
-                <div class="marquee-item"><span class="dot"></span> Escrow Service</div>
-                <div class="marquee-item"><span class="dot"></span> Safe Deals</div>
+            <div class="cta-row fade-up">
+                <a href="#contact" class="btn btn-glow">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    Contact Me
+                </a>
+                <a href="#services" class="btn btn-ghost">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                    View Services
+                </a>
             </div>
         </div>
+        <div class="scroll-hint">
+            <div class="scroll-line"></div>
+            <span class="scroll-text">scroll</span>
+        </div>
+    </section>
 
-        <!-- Stats -->
-        <section class="stats-section">
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-value" data-count="500">0</div>
-                    <div class="stat-label">Deals Done</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" data-count="100" data-suffix="%">0</div>
-                    <div class="stat-label">Trust Rate</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" data-count="24" data-suffix="/7">0</div>
-                    <div class="stat-label">Availability</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" data-count="300" data-suffix="+">0</div>
-                    <div class="stat-label">Happy Clients</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Services -->
-        <section class="section" id="services">
-            <div class="section-container">
-                <div class="section-header">
-                    <div class="section-eyebrow">What I Offer</div>
-                    <h2 class="section-title">Services</h2>
-                    <p class="section-subtitle">Professional middleman services built on trust, security, and reliability.</p>
-                </div>
-
-                <div class="bento-grid">
-                    <div class="bento-card featured" data-tilt data-tilt-max="3" data-tilt-speed="300" data-tilt-glare data-tilt-max-glare="0.08">
-                        <div class="bento-icon">&#x1F91D;</div>
-                        <h3 class="bento-title">Middleman Services</h3>
-                        <p class="bento-desc">Your trusted intermediary for secure transactions. I ensure both parties are protected with professional handling of every deal. Safety, transparency, and reliability guaranteed.</p>
-                        <div class="bento-tags">
-                            <span class="bento-tag">Escrow</span>
-                            <span class="bento-tag">Secure</span>
-                            <span class="bento-tag">Verified</span>
-                            <span class="bento-tag">24/7</span>
-                            <span class="bento-tag">Trusted</span>
-                            <span class="bento-tag">Fast</span>
-                        </div>
-                    </div>
-                    <div class="bento-card" data-tilt data-tilt-max="5" data-tilt-speed="300" data-tilt-glare data-tilt-max-glare="0.08">
-                        <div class="bento-icon">&#x1F4DA;</div>
-                        <h3 class="bento-title">Always Learning</h3>
-                        <p class="bento-desc">Continuously expanding my knowledge and skills. Adapting to new challenges and growing every day to serve you better.</p>
-                        <div class="bento-tags">
-                            <span class="bento-tag">Growth</span>
-                            <span class="bento-tag">Adaptive</span>
-                            <span class="bento-tag">Dedicated</span>
-                        </div>
-                    </div>
-                    <div class="bento-card" data-tilt data-tilt-max="5" data-tilt-speed="300" data-tilt-glare data-tilt-max-glare="0.08">
-                        <div class="bento-icon">&#x1F6E1;&#xFE0F;</div>
-                        <h3 class="bento-title">Trust & Safety</h3>
-                        <p class="bento-desc">Your security is my top priority. Every transaction is handled with utmost care and professionalism.</p>
-                        <div class="bento-tags">
-                            <span class="bento-tag">Protected</span>
-                            <span class="bento-tag">Safe</span>
-                            <span class="bento-tag">Reliable</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Features -->
-        <section class="section" id="features">
-            <div class="section-container">
-                <div class="section-header">
-                    <div class="section-eyebrow">Why Choose Me</div>
-                    <h2 class="section-title">Features</h2>
-                    <p class="section-subtitle">What sets me apart from the rest.</p>
-                </div>
-
-                <div class="features-grid">
-                    <div class="feature-card" data-tilt data-tilt-max="10" data-tilt-speed="300">
-                        <div class="feature-icon">&#x1F510;</div>
-                        <h4 class="feature-title">Secure</h4>
-                        <p class="feature-desc">All transactions handled with maximum security protocols</p>
-                    </div>
-                    <div class="feature-card" data-tilt data-tilt-max="10" data-tilt-speed="300">
-                        <div class="feature-icon">&#x26A1;</div>
-                        <h4 class="feature-title">Lightning Fast</h4>
-                        <p class="feature-desc">Quick response times, no waiting around ever</p>
-                    </div>
-                    <div class="feature-card" data-tilt data-tilt-max="10" data-tilt-speed="300">
-                        <div class="feature-icon">&#x1F30D;</div>
-                        <h4 class="feature-title">24/7 Available</h4>
-                        <p class="feature-desc">Always online and ready to help worldwide</p>
-                    </div>
-                    <div class="feature-card" data-tilt data-tilt-max="10" data-tilt-speed="300">
-                        <div class="feature-icon">&#x2705;</div>
-                        <h4 class="feature-title">Verified</h4>
-                        <p class="feature-desc">Trusted and verified middleman with proof</p>
-                    </div>
-                    <div class="feature-card" data-tilt data-tilt-max="10" data-tilt-speed="300">
-                        <div class="feature-icon">&#x1F48E;</div>
-                        <h4 class="feature-title">Professional</h4>
-                        <p class="feature-desc">Clean, professional service every single time</p>
-                    </div>
-                    <div class="feature-card" data-tilt data-tilt-max="10" data-tilt-speed="300">
-                        <div class="feature-icon">&#x1F91D;</div>
-                        <h4 class="feature-title">Fair</h4>
-                        <p class="feature-desc">Both parties treated equally and fairly always</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Vouches -->
-        <section class="section" id="vouches">
-            <div class="section-container">
-                <div class="section-header">
-                    <div class="section-eyebrow">Testimonials</div>
-                    <h2 class="section-title">Vouches</h2>
-                    <p class="section-subtitle">What my clients say about working with me.</p>
-                </div>
-            </div>
-            <div style="overflow: hidden; padding: 20px 0;">
-                <div class="vouches-track">
-                    <div class="vouch-card">
-                        <div class="vouch-stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
-                        <p class="vouch-text">"Raoki handled my deal perfectly. Super fast, professional, and trustworthy. Would use again 100%."</p>
-                        <div class="vouch-author"><div class="vouch-avatar">A</div><div><div class="vouch-name">Alex</div><div class="vouch-role">Verified Client</div></div></div>
-                    </div>
-                    <div class="vouch-card">
-                        <div class="vouch-stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
-                        <p class="vouch-text">"Best middleman I've ever worked with. Smooth transaction, great communication throughout."</p>
-                        <div class="vouch-author"><div class="vouch-avatar">M</div><div><div class="vouch-name">Marcus</div><div class="vouch-role">Repeat Client</div></div></div>
-                    </div>
-                    <div class="vouch-card">
-                        <div class="vouch-stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
-                        <p class="vouch-text">"Extremely reliable. Raoki made sure both sides were happy. Highly recommended for any deal."</p>
-                        <div class="vouch-author"><div class="vouch-avatar">S</div><div><div class="vouch-name">Shadow</div><div class="vouch-role">Verified Client</div></div></div>
-                    </div>
-                    <div class="vouch-card">
-                        <div class="vouch-stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
-                        <p class="vouch-text">"Fast, secure, and professional. Raoki is the go-to middleman. Never had any issues."</p>
-                        <div class="vouch-author"><div class="vouch-avatar">K</div><div><div class="vouch-name">Kai</div><div class="vouch-role">Verified Client</div></div></div>
-                    </div>
-                    <div class="vouch-card">
-                        <div class="vouch-stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
-                        <p class="vouch-text">"10/10 service. Raoki is patient, fair, and makes sure everything goes smoothly."</p>
-                        <div class="vouch-author"><div class="vouch-avatar">D</div><div><div class="vouch-name">Drake</div><div class="vouch-role">Repeat Client</div></div></div>
-                    </div>
-                    <div class="vouch-card">
-                        <div class="vouch-stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
-                        <p class="vouch-text">"Used Raoki multiple times now. Always delivers. The safest middleman around."</p>
-                        <div class="vouch-author"><div class="vouch-avatar">R</div><div><div class="vouch-name">Raven</div><div class="vouch-role">VIP Client</div></div></div>
-                    </div>
-                    <!-- Duplicate for infinite scroll -->
-                    <div class="vouch-card">
-                        <div class="vouch-stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
-                        <p class="vouch-text">"Raoki handled my deal perfectly. Super fast, professional, and trustworthy. Would use again 100%."</p>
-                        <div class="vouch-author"><div class="vouch-avatar">A</div><div><div class="vouch-name">Alex</div><div class="vouch-role">Verified Client</div></div></div>
-                    </div>
-                    <div class="vouch-card">
-                        <div class="vouch-stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
-                        <p class="vouch-text">"Best middleman I've ever worked with. Smooth transaction, great communication throughout."</p>
-                        <div class="vouch-author"><div class="vouch-avatar">M</div><div><div class="vouch-name">Marcus</div><div class="vouch-role">Repeat Client</div></div></div>
-                    </div>
-                    <div class="vouch-card">
-                        <div class="vouch-stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
-                        <p class="vouch-text">"Extremely reliable. Raoki made sure both sides were happy. Highly recommended for any deal."</p>
-                        <div class="vouch-author"><div class="vouch-avatar">S</div><div><div class="vouch-name">Shadow</div><div class="vouch-role">Verified Client</div></div></div>
-                    </div>
-                    <div class="vouch-card">
-                        <div class="vouch-stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
-                        <p class="vouch-text">"Fast, secure, and professional. Raoki is the go-to middleman. Never had any issues."</p>
-                        <div class="vouch-author"><div class="vouch-avatar">K</div><div><div class="vouch-name">Kai</div><div class="vouch-role">Verified Client</div></div></div>
-                    </div>
-                    <div class="vouch-card">
-                        <div class="vouch-stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
-                        <p class="vouch-text">"10/10 service. Raoki is patient, fair, and makes sure everything goes smoothly."</p>
-                        <div class="vouch-author"><div class="vouch-avatar">D</div><div><div class="vouch-name">Drake</div><div class="vouch-role">Repeat Client</div></div></div>
-                    </div>
-                    <div class="vouch-card">
-                        <div class="vouch-stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
-                        <p class="vouch-text">"Used Raoki multiple times now. Always delivers. The safest middleman around."</p>
-                        <div class="vouch-author"><div class="vouch-avatar">R</div><div><div class="vouch-name">Raven</div><div class="vouch-role">VIP Client</div></div></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Contact -->
-        <section class="section" id="contact">
-            <div class="section-container">
-                <div class="section-header">
-                    <div class="section-eyebrow">Get in Touch</div>
-                    <h2 class="section-title">Contact</h2>
-                    <p class="section-subtitle">Ready to work together? Reach out through any of these channels.</p>
-                </div>
-
-                <div class="contact-grid">
-                    <div class="contact-info-card">
-                        <h3 class="contact-info-title">Let's Connect</h3>
-                        <p class="contact-info-desc">Available 24/7 for middleman services. Fast response guaranteed. Your trust is my priority.</p>
-                        <div class="contact-detail">
-                            <div class="contact-detail-icon">&#x1F4CD;</div>
-                            <div class="contact-detail-text">Telegram: @Raoki</div>
-                        </div>
-                        <div class="contact-detail">
-                            <div class="contact-detail-icon">&#x1F91D;</div>
-                            <div class="contact-detail-text">Services: @Resguard</div>
-                        </div>
-                        <div class="contact-detail">
-                            <div class="contact-detail-icon">&#x26A1;</div>
-                            <div class="contact-detail-text">Response: Instant</div>
-                        </div>
-                        <div class="contact-detail">
-                            <div class="contact-detail-icon">&#x1F570;&#xFE0F;</div>
-                            <div class="contact-detail-text">Availability: 24/7</div>
-                        </div>
-                    </div>
-
-                    <div class="contact-links-side">
-                        <a href="https://t.me/Resguard" target="_blank" class="contact-link-card">
-                            <div class="contact-link-icon tg">
-                                <svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
-                            </div>
-                            <div class="contact-link-info">
-                                <div class="contact-link-name">@Resguard</div>
-                                <div class="contact-link-desc">Middleman Services</div>
-                            </div>
-                            <span class="contact-link-arrow">&rarr;</span>
-                        </a>
-
-                        <a href="https://wa.me/message/4B5TPUISZVQRH1" target="_blank" class="contact-link-card">
-                            <div class="contact-link-icon wa">
-                                <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                            </div>
-                            <div class="contact-link-info">
-                                <div class="contact-link-name">WhatsApp</div>
-                                <div class="contact-link-desc">Message me directly</div>
-                            </div>
-                            <span class="contact-link-arrow">&rarr;</span>
-                        </a>
-
-                        <a href="https://t.me/m/SzZt0t59OGI1" target="_blank" class="contact-link-card">
-                            <div class="contact-link-icon tg">
-                                <svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
-                            </div>
-                            <div class="contact-link-info">
-                                <div class="contact-link-name">Telegram DM</div>
-                                <div class="contact-link-desc">Quick message link</div>
-                            </div>
-                            <span class="contact-link-arrow">&rarr;</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Footer -->
-        <footer class="footer">
-            <div class="footer-brand">Raoki</div>
-            <p class="footer-desc">Trusted Middleman Services. Available 24/7. Your safety, my priority.</p>
-            <div class="footer-links">
-                <a href="https://t.me/Raoki" target="_blank">Telegram</a>
-                <a href="https://t.me/Resguard" target="_blank">Services</a>
-                <a href="https://wa.me/message/4B5TPUISZVQRH1" target="_blank">WhatsApp</a>
-            </div>
-            <p class="footer-copy">&copy; 2026 Raoki. All rights reserved. | raoki.pro</p>
-        </footer>
+    <!-- Marquee -->
+    <div class="marquee">
+        <div class="marquee-inner">
+            <div class="marquee-item"><span class="marquee-dot"></span>Middleman</div>
+            <div class="marquee-item"><span class="marquee-dot"></span>Secure Deals</div>
+            <div class="marquee-item"><span class="marquee-dot"></span>24/7 Online</div>
+            <div class="marquee-item"><span class="marquee-dot"></span>Trusted</div>
+            <div class="marquee-item"><span class="marquee-dot"></span>Fast Response</div>
+            <div class="marquee-item"><span class="marquee-dot"></span>Professional</div>
+            <div class="marquee-item"><span class="marquee-dot"></span>Escrow</div>
+            <div class="marquee-item"><span class="marquee-dot"></span>Safe</div>
+            <div class="marquee-item"><span class="marquee-dot"></span>Middleman</div>
+            <div class="marquee-item"><span class="marquee-dot"></span>Secure Deals</div>
+            <div class="marquee-item"><span class="marquee-dot"></span>24/7 Online</div>
+            <div class="marquee-item"><span class="marquee-dot"></span>Trusted</div>
+            <div class="marquee-item"><span class="marquee-dot"></span>Fast Response</div>
+            <div class="marquee-item"><span class="marquee-dot"></span>Professional</div>
+            <div class="marquee-item"><span class="marquee-dot"></span>Escrow</div>
+            <div class="marquee-item"><span class="marquee-dot"></span>Safe</div>
+        </div>
     </div>
 
-    <!-- Audio elements -->
-    <audio id="audioPlayer" preload="none" loop></audio>
+    <!-- Stats -->
+    <section class="stats">
+        <div class="stats-grid">
+            <div class="stat fade-up"><div class="stat-num" data-target="500" data-suffix="+">0</div><div class="stat-label">Deals Done</div></div>
+            <div class="stat fade-up"><div class="stat-num" data-target="100" data-suffix="%">0</div><div class="stat-label">Trust Rate</div></div>
+            <div class="stat fade-up"><div class="stat-num" data-target="24" data-suffix="/7">0</div><div class="stat-label">Availability</div></div>
+            <div class="stat fade-up"><div class="stat-num" data-target="300" data-suffix="+">0</div><div class="stat-label">Happy Clients</div></div>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section class="section" id="services">
+        <div class="container">
+            <div class="sec-header">
+                <div class="sec-eyebrow fade-up">What I Offer</div>
+                <h2 class="sec-title fade-up">Services</h2>
+                <p class="sec-desc fade-up">Professional middleman services built on trust, security, and reliability.</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card main-card fade-up">
+                    <div class="svc-icon">&#x1F91D;</div>
+                    <h3 class="svc-title">Middleman Services</h3>
+                    <p class="svc-desc">Your trusted intermediary for secure transactions. I ensure both parties are protected with professional handling of every deal. Safety, transparency, and reliability guaranteed.</p>
+                    <div class="svc-tags">
+                        <span class="svc-tag">Escrow</span><span class="svc-tag">Secure</span><span class="svc-tag">Verified</span>
+                        <span class="svc-tag">24/7</span><span class="svc-tag">Trusted</span><span class="svc-tag">Fast</span>
+                    </div>
+                </div>
+                <div class="service-card fade-up">
+                    <div class="svc-icon">&#x1F4DA;</div>
+                    <h3 class="svc-title">Always Learning</h3>
+                    <p class="svc-desc">Continuously expanding my knowledge and skills. Adapting to new challenges and growing every day.</p>
+                    <div class="svc-tags"><span class="svc-tag">Growth</span><span class="svc-tag">Adaptive</span><span class="svc-tag">Dedicated</span></div>
+                </div>
+                <div class="service-card fade-up">
+                    <div class="svc-icon">&#x1F6E1;&#xFE0F;</div>
+                    <h3 class="svc-title">Trust & Safety</h3>
+                    <p class="svc-desc">Your security is my top priority. Every transaction is handled with utmost care and professionalism.</p>
+                    <div class="svc-tags"><span class="svc-tag">Protected</span><span class="svc-tag">Safe</span><span class="svc-tag">Reliable</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="section" id="features">
+        <div class="container">
+            <div class="sec-header">
+                <div class="sec-eyebrow fade-up">Why Choose Me</div>
+                <h2 class="sec-title fade-up">Features</h2>
+                <p class="sec-desc fade-up">What sets me apart from the rest.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feat fade-up"><div class="feat-icon">&#x1F510;</div><h4 class="feat-title">Secure</h4><p class="feat-desc">Maximum security protocols for every transaction</p></div>
+                <div class="feat fade-up"><div class="feat-icon">&#x26A1;</div><h4 class="feat-title">Lightning Fast</h4><p class="feat-desc">Instant response times, no waiting around</p></div>
+                <div class="feat fade-up"><div class="feat-icon">&#x1F30D;</div><h4 class="feat-title">24/7 Available</h4><p class="feat-desc">Always online and ready to help worldwide</p></div>
+                <div class="feat fade-up"><div class="feat-icon">&#x2705;</div><h4 class="feat-title">Verified</h4><p class="feat-desc">Trusted and verified middleman with proof</p></div>
+                <div class="feat fade-up"><div class="feat-icon">&#x1F48E;</div><h4 class="feat-title">Professional</h4><p class="feat-desc">Clean, professional service every single time</p></div>
+                <div class="feat fade-up"><div class="feat-icon">&#x1F91D;</div><h4 class="feat-title">Fair</h4><p class="feat-desc">Both parties treated equally and fairly</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vouches -->
+    <section class="section" id="vouches">
+        <div class="container">
+            <div class="sec-header">
+                <div class="sec-eyebrow fade-up">Testimonials</div>
+                <h2 class="sec-title fade-up">Vouches</h2>
+                <p class="sec-desc fade-up">What my clients say about working with me.</p>
+            </div>
+        </div>
+        <div class="vouches-wrap">
+            <div class="vouches-track">
+                <div class="vouch"><div class="vouch-stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div><p class="vouch-text">"Raoki handled my deal perfectly. Super fast, professional, and trustworthy. Would use again 100%."</p><div class="vouch-author"><div class="vouch-avatar">A</div><div><div class="vouch-name">Alex</div><div class="vouch-role">Verified Client</div></div></div></div>
+                <div class="vouch"><div class="vouch-stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div><p class="vouch-text">"Best middleman I've ever worked with. Smooth transaction, great communication throughout."</p><div class="vouch-author"><div class="vouch-avatar">M</div><div><div class="vouch-name">Marcus</div><div class="vouch-role">Repeat Client</div></div></div></div>
+                <div class="vouch"><div class="vouch-stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div><p class="vouch-text">"Extremely reliable. Raoki made sure both sides were happy. Highly recommended for any deal."</p><div class="vouch-author"><div class="vouch-avatar">S</div><div><div class="vouch-name">Shadow</div><div class="vouch-role">Verified Client</div></div></div></div>
+                <div class="vouch"><div class="vouch-stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div><p class="vouch-text">"Fast, secure, and professional. Raoki is the go-to middleman. Never had any issues."</p><div class="vouch-author"><div class="vouch-avatar">K</div><div><div class="vouch-name">Kai</div><div class="vouch-role">Verified Client</div></div></div></div>
+                <div class="vouch"><div class="vouch-stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div><p class="vouch-text">"10/10 service. Raoki is patient, fair, and makes sure everything goes smoothly."</p><div class="vouch-author"><div class="vouch-avatar">D</div><div><div class="vouch-name">Drake</div><div class="vouch-role">Repeat Client</div></div></div></div>
+                <div class="vouch"><div class="vouch-stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div><p class="vouch-text">"Used Raoki multiple times now. Always delivers. The safest middleman around."</p><div class="vouch-author"><div class="vouch-avatar">R</div><div><div class="vouch-name">Raven</div><div class="vouch-role">VIP Client</div></div></div></div>
+                <!-- Duplicates for infinite scroll -->
+                <div class="vouch"><div class="vouch-stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div><p class="vouch-text">"Raoki handled my deal perfectly. Super fast, professional, and trustworthy. Would use again 100%."</p><div class="vouch-author"><div class="vouch-avatar">A</div><div><div class="vouch-name">Alex</div><div class="vouch-role">Verified Client</div></div></div></div>
+                <div class="vouch"><div class="vouch-stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div><p class="vouch-text">"Best middleman I've ever worked with. Smooth transaction, great communication throughout."</p><div class="vouch-author"><div class="vouch-avatar">M</div><div><div class="vouch-name">Marcus</div><div class="vouch-role">Repeat Client</div></div></div></div>
+                <div class="vouch"><div class="vouch-stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div><p class="vouch-text">"Extremely reliable. Raoki made sure both sides were happy. Highly recommended for any deal."</p><div class="vouch-author"><div class="vouch-avatar">S</div><div><div class="vouch-name">Shadow</div><div class="vouch-role">Verified Client</div></div></div></div>
+                <div class="vouch"><div class="vouch-stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div><p class="vouch-text">"Fast, secure, and professional. Raoki is the go-to middleman. Never had any issues."</p><div class="vouch-author"><div class="vouch-avatar">K</div><div><div class="vouch-name">Kai</div><div class="vouch-role">Verified Client</div></div></div></div>
+                <div class="vouch"><div class="vouch-stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div><p class="vouch-text">"10/10 service. Raoki is patient, fair, and makes sure everything goes smoothly."</p><div class="vouch-author"><div class="vouch-avatar">D</div><div><div class="vouch-name">Drake</div><div class="vouch-role">Repeat Client</div></div></div></div>
+                <div class="vouch"><div class="vouch-stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div><p class="vouch-text">"Used Raoki multiple times now. Always delivers. The safest middleman around."</p><div class="vouch-author"><div class="vouch-avatar">R</div><div><div class="vouch-name">Raven</div><div class="vouch-role">VIP Client</div></div></div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="section" id="contact">
+        <div class="container">
+            <div class="sec-header">
+                <div class="sec-eyebrow fade-up">Get in Touch</div>
+                <h2 class="sec-title fade-up">Contact</h2>
+                <p class="sec-desc fade-up">Ready to work together? Reach out anytime.</p>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-left fade-up">
+                    <h3 class="contact-title">Let's Connect</h3>
+                    <p class="contact-desc">Available 24/7 for middleman services. Fast response guaranteed.</p>
+                    <div class="contact-item"><div class="contact-item-icon">&#x1F4CD;</div><div class="contact-item-text">Telegram: @Raoki</div></div>
+                    <div class="contact-item"><div class="contact-item-icon">&#x1F91D;</div><div class="contact-item-text">Services: @Resguard</div></div>
+                    <div class="contact-item"><div class="contact-item-icon">&#x26A1;</div><div class="contact-item-text">Response: Instant</div></div>
+                    <div class="contact-item"><div class="contact-item-icon">&#x1F570;&#xFE0F;</div><div class="contact-item-text">Availability: 24/7</div></div>
+                </div>
+                <div class="contact-right fade-up">
+                    <a href="https://t.me/Resguard" target="_blank" class="contact-link">
+                        <div class="cl-icon tg"><svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></div>
+                        <div class="cl-info"><div class="cl-name">@Resguard</div><div class="cl-desc">Middleman Services</div></div>
+                        <span class="cl-arrow">&rarr;</span>
+                    </a>
+                    <a href="https://wa.me/message/4B5TPUISZVQRH1" target="_blank" class="contact-link">
+                        <div class="cl-icon wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></div>
+                        <div class="cl-info"><div class="cl-name">WhatsApp</div><div class="cl-desc">Message me directly</div></div>
+                        <span class="cl-arrow">&rarr;</span>
+                    </a>
+                    <a href="https://t.me/m/SzZt0t59OGI1" target="_blank" class="contact-link">
+                        <div class="cl-icon tg"><svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></div>
+                        <div class="cl-info"><div class="cl-name">Telegram DM</div><div class="cl-desc">Quick message link</div></div>
+                        <span class="cl-arrow">&rarr;</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-brand">Raoki</div>
+        <p class="footer-desc">Trusted Middleman Services. Available 24/7.</p>
+        <div class="footer-links">
+            <a href="https://t.me/Raoki" target="_blank">Telegram</a>
+            <a href="https://t.me/Resguard" target="_blank">Services</a>
+            <a href="https://wa.me/message/4B5TPUISZVQRH1" target="_blank">WhatsApp</a>
+        </div>
+        <p class="footer-copy">&copy; 2026 Raoki. All rights reserved. | raoki.pro</p>
+    </footer>
+
+    <audio id="audio" preload="none" loop></audio>
 
     <script>
-        // ===== MUSIC PLAYER =====
-        const tracks = [
-            { title: 'Temple at Dawn', file: 'audio/temple-at-dawn.mp3' },
-            { title: 'Bamboo Shadow Waltz', file: 'audio/bamboo-shadow-waltz.mp3' },
-            { title: 'Paper Lantern Rain', file: 'audio/paper-lantern-rain.mp3' },
-            { title: 'Moon Through Bamboo', file: 'audio/moon-through-bamboo.mp3' },
-            { title: 'Lanterns in Slow Motion', file: 'audio/lanterns-in-slow-motion.mp3' },
-            { title: 'Midnight on My Mind', file: 'audio/midnight-on-my-mind.mp3' },
-            { title: '3 AM Echoes', file: 'audio/3-am-echoes.mp3' },
-        ];
+    // === MUSIC ===
+    const tracks=[
+        {title:'Temple at Dawn',file:'audio/temple-at-dawn.mp3'},
+        {title:'Bamboo Shadow Waltz',file:'audio/bamboo-shadow-waltz.mp3'},
+        {title:'Paper Lantern Rain',file:'audio/paper-lantern-rain.mp3'},
+        {title:'Moon Through Bamboo',file:'audio/moon-through-bamboo.mp3'},
+        {title:'Lanterns in Slow Motion',file:'audio/lanterns-in-slow-motion.mp3'},
+        {title:'Midnight on My Mind',file:'audio/midnight-on-my-mind.mp3'},
+        {title:'3 AM Echoes',file:'audio/3-am-echoes.mp3'},
+    ];
+    let ci=0,playing=false;
+    const au=document.getElementById('audio'),
+          tog=document.getElementById('playerToggle'),
+          info=document.getElementById('playerInfo'),
+          viz=document.getElementById('playerViz'),
+          pTitle=document.getElementById('playerTitle'),
+          iPlay=document.getElementById('iconPlay'),
+          iPause=document.getElementById('iconPause');
 
-        let currentTrack = 0;
-        let isPlaying = false;
-        const audio = document.getElementById('audioPlayer');
-        const musicToggle = document.getElementById('musicToggle');
-        const musicExpanded = document.getElementById('musicExpanded');
-        const musicTitle = document.getElementById('musicTitle');
-        const musicVisualizer = document.getElementById('musicVisualizer');
-        const playIcon = document.getElementById('playIcon');
-        const pauseIcon = document.getElementById('pauseIcon');
+    function load(i){au.src=tracks[i].file;pTitle.textContent=tracks[i].title}
+    function toggle(){
+        if(playing){au.pause();playing=false;iPlay.style.display='block';iPause.style.display='none';tog.classList.remove('playing');viz.classList.remove('active');info.classList.remove('show')}
+        else{if(!au.src||au.src===location.href)load(ci);au.play().then(()=>{playing=true;iPlay.style.display='none';iPause.style.display='block';tog.classList.add('playing');viz.classList.add('active');info.classList.add('show')}).catch(()=>{})}
+    }
+    function next(){ci=(ci+1)%tracks.length;load(ci);if(playing)au.play()}
+    function prev(){ci=(ci-1+tracks.length)%tracks.length;load(ci);if(playing)au.play()}
+    tog.onclick=toggle;
+    document.getElementById('nextBtn').onclick=next;
+    document.getElementById('prevBtn').onclick=prev;
+    au.onended=next;
 
-        function loadTrack(index) {
-            audio.src = tracks[index].file;
-            musicTitle.textContent = tracks[index].title;
-        }
+    // === LOADER ===
+    window.addEventListener('load',()=>{
+        setTimeout(()=>{
+            const l=document.getElementById('loader');
+            l.style.transition='opacity 0.5s';l.style.opacity='0';
+            setTimeout(()=>l.style.display='none',500);
+        },1500);
+    });
 
-        function togglePlay() {
-            if (isPlaying) {
-                audio.pause();
-                isPlaying = false;
-                playIcon.style.display = 'block';
-                pauseIcon.style.display = 'none';
-                musicToggle.classList.remove('playing');
-                musicVisualizer.classList.remove('active');
-                musicExpanded.classList.remove('show');
-            } else {
-                if (!audio.src || audio.src === window.location.href) loadTrack(currentTrack);
-                audio.play().then(() => {
-                    isPlaying = true;
-                    playIcon.style.display = 'none';
-                    pauseIcon.style.display = 'block';
-                    musicToggle.classList.add('playing');
-                    musicVisualizer.classList.add('active');
-                    musicExpanded.classList.add('show');
-                }).catch(() => {});
+    // === NAV ===
+    const nav=document.getElementById('nav');
+    window.addEventListener('scroll',()=>{
+        nav.classList.toggle('scrolled',scrollY>50);
+        // Active link
+        document.querySelectorAll('section[id]').forEach(s=>{
+            const top=s.offsetTop-200;
+            if(scrollY>=top){
+                document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
+                const link=document.querySelector(`.nav-links a[href="#${s.id}"]`);
+                if(link)link.classList.add('active');
             }
-        }
-
-        function nextTrack() {
-            currentTrack = (currentTrack + 1) % tracks.length;
-            loadTrack(currentTrack);
-            if (isPlaying) audio.play();
-        }
-
-        function prevTrack() {
-            currentTrack = (currentTrack - 1 + tracks.length) % tracks.length;
-            loadTrack(currentTrack);
-            if (isPlaying) audio.play();
-        }
-
-        musicToggle.addEventListener('click', togglePlay);
-        document.getElementById('nextBtn').addEventListener('click', nextTrack);
-        document.getElementById('prevBtn').addEventListener('click', prevTrack);
-        audio.addEventListener('ended', nextTrack);
-
-        // ===== LOADING SCREEN =====
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                gsap.to('#loader', {
-                    opacity: 0,
-                    duration: 0.6,
-                    ease: 'power2.out',
-                    onComplete: () => {
-                        document.getElementById('loader').style.display = 'none';
-                        document.body.classList.add('page-loaded');
-                        initAnimations();
-                    }
-                });
-            }, 2200);
         });
+    });
 
-        // ===== THREE.JS BACKGROUND =====
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({
-            canvas: document.getElementById('three-canvas'),
-            alpha: true,
-            antialias: true
-        });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    // Mobile nav
+    document.getElementById('mobileToggle').onclick=()=>document.getElementById('navLinks').classList.toggle('open');
+    document.querySelectorAll('.nav-links a').forEach(a=>a.addEventListener('click',()=>document.getElementById('navLinks').classList.remove('open')));
 
-        // Particle system - more particles, better distribution
-        const particleCount = 3000;
-        const positions = new Float32Array(particleCount * 3);
-        const colors = new Float32Array(particleCount * 3);
-        const sizes = new Float32Array(particleCount);
+    // === TERMINAL TYPING ===
+    const cmds=['middleman --mode secure --trust 100%','status: online && available 24/7','echo "Your safety is my priority"','raoki.pro --deals 500+ --clients 300+'];
+    let cmdI=0,charI=0,deleting=false;
+    const termEl=document.getElementById('termText');
+    function typeCmd(){
+        const c=cmds[cmdI];
+        if(deleting){termEl.textContent=c.substring(0,--charI)}
+        else{termEl.textContent=c.substring(0,++charI)}
+        let spd=deleting?12:40;
+        if(!deleting&&charI===c.length){spd=2500;deleting=true}
+        else if(deleting&&charI===0){deleting=false;cmdI=(cmdI+1)%cmds.length;spd=400}
+        setTimeout(typeCmd,spd);
+    }
+    typeCmd();
 
-        for (let i = 0; i < particleCount; i++) {
-            const i3 = i * 3;
-            const radius = Math.random() * 25;
-            const theta = Math.random() * Math.PI * 2;
-            const phi = Math.acos(2 * Math.random() - 1);
-
-            positions[i3] = radius * Math.sin(phi) * Math.cos(theta);
-            positions[i3 + 1] = radius * Math.sin(phi) * Math.sin(theta);
-            positions[i3 + 2] = radius * Math.cos(phi);
-
-            const color = new THREE.Color();
-            color.setHSL(0.7 + Math.random() * 0.3, 0.7, 0.4 + Math.random() * 0.4);
-            colors[i3] = color.r;
-            colors[i3 + 1] = color.g;
-            colors[i3 + 2] = color.b;
-
-            sizes[i] = Math.random() * 2;
-        }
-
-        const particleGeometry = new THREE.BufferGeometry();
-        particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-        particleGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-
-        const particleMaterial = new THREE.PointsMaterial({
-            size: 0.015,
-            vertexColors: true,
-            transparent: true,
-            opacity: 0.5,
-            blending: THREE.AdditiveBlending,
-            sizeAttenuation: true
-        });
-
-        const particles = new THREE.Points(particleGeometry, particleMaterial);
-        scene.add(particles);
-
-        // Geometric shapes
-        const torusGeo = new THREE.TorusKnotGeometry(3, 0.5, 100, 16);
-        const torusMat = new THREE.MeshBasicMaterial({ color: 0x8b5cf6, wireframe: true, transparent: true, opacity: 0.04 });
-        const torusKnot = new THREE.Mesh(torusGeo, torusMat);
-        scene.add(torusKnot);
-
-        const icosaGeo = new THREE.IcosahedronGeometry(5, 1);
-        const icosaMat = new THREE.MeshBasicMaterial({ color: 0x06b6d4, wireframe: true, transparent: true, opacity: 0.03 });
-        const icosahedron = new THREE.Mesh(icosaGeo, icosaMat);
-        scene.add(icosahedron);
-
-        camera.position.z = 10;
-
-        let mouseX = 0, mouseY = 0;
-        let targetMouseX = 0, targetMouseY = 0;
-
-        function animateThree() {
-            requestAnimationFrame(animateThree);
-
-            mouseX += (targetMouseX - mouseX) * 0.05;
-            mouseY += (targetMouseY - mouseY) * 0.05;
-
-            particles.rotation.y += 0.0002;
-            particles.rotation.x += 0.0001;
-
-            torusKnot.rotation.x += 0.002;
-            torusKnot.rotation.y += 0.003;
-
-            icosahedron.rotation.x -= 0.001;
-            icosahedron.rotation.z += 0.002;
-
-            camera.position.x += (mouseX * 0.8 - camera.position.x) * 0.02;
-            camera.position.y += (mouseY * 0.8 - camera.position.y) * 0.02;
-            camera.lookAt(scene.position);
-
-            renderer.render(scene, camera);
-        }
-        animateThree();
-
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        });
-
-        // ===== CUSTOM CURSOR =====
-        const cursorOuter = document.getElementById('cursorOuter');
-        const cursorInner = document.getElementById('cursorInner');
-
-        document.addEventListener('mousemove', (e) => {
-            cursorOuter.style.left = e.clientX + 'px';
-            cursorOuter.style.top = e.clientY + 'px';
-            cursorInner.style.left = e.clientX + 'px';
-            cursorInner.style.top = e.clientY + 'px';
-
-            targetMouseX = (e.clientX / window.innerWidth) * 2 - 1;
-            targetMouseY = -(e.clientY / window.innerHeight) * 2 + 1;
-        });
-
-        document.querySelectorAll('a, button, .hero-tag, .bento-card, .feature-card, .contact-link-card, .stat-card, .vouch-card, .nav-cta').forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                cursorOuter.classList.add('hover');
-                cursorInner.classList.add('hover');
-            });
-            el.addEventListener('mouseleave', () => {
-                cursorOuter.classList.remove('hover');
-                cursorInner.classList.remove('hover');
-            });
-        });
-
-        // ===== GSAP ANIMATIONS =====
-        function initAnimations() {
-            gsap.registerPlugin(ScrollTrigger);
-
-            // Hero entrance
-            const tl = gsap.timeline();
-            tl.from('.pfp-container', { scale: 0, rotation: 180, duration: 1, ease: 'back.out(1.7)' })
-              .from('.hero-greeting', { y: 20, opacity: 0, duration: 0.5 }, '-=0.3')
-              .from('.hero-title', { y: 40, opacity: 0, duration: 0.7 }, '-=0.2')
-              .from('.hero-subtitle', { y: 30, opacity: 0, duration: 0.5 }, '-=0.3')
-              .from('.terminal-box', { y: 20, opacity: 0, duration: 0.5 }, '-=0.2')
-              .from('.hero-tags .hero-tag', { y: 15, opacity: 0, duration: 0.3, stagger: 0.08 }, '-=0.2')
-              .from('.hero-cta', { y: 20, opacity: 0, duration: 0.5 }, '-=0.1');
-
-            // Stats
-            gsap.from('.stat-card', {
-                scrollTrigger: { trigger: '.stats-grid', start: 'top 85%' },
-                y: 50, opacity: 0, duration: 0.6, stagger: 0.12
-            });
-
-            // Services
-            gsap.from('.bento-card', {
-                scrollTrigger: { trigger: '.bento-grid', start: 'top 80%' },
-                y: 60, opacity: 0, duration: 0.7, stagger: 0.15
-            });
-
-            // Features
-            gsap.from('.feature-card', {
-                scrollTrigger: { trigger: '.features-grid', start: 'top 80%' },
-                y: 40, opacity: 0, duration: 0.5, stagger: 0.1
-            });
-
-            // Contact
-            gsap.from('.contact-info-card', {
-                scrollTrigger: { trigger: '.contact-grid', start: 'top 80%' },
-                x: -50, opacity: 0, duration: 0.7
-            });
-
-            gsap.from('.contact-link-card', {
-                scrollTrigger: { trigger: '.contact-links-side', start: 'top 80%' },
-                x: 50, opacity: 0, duration: 0.5, stagger: 0.12
-            });
-        }
-
-        // ===== TERMINAL TYPING =====
-        const terminalTexts = [
-            'middleman --mode secure --trust 100%',
-            'status: online && available 24/7',
-            'echo "Your safety is my priority"',
-            'service start --escrow --fast --verified',
-            'raoki.pro --deals 500+ --satisfied 100%',
-        ];
-        let termIdx = 0, termCharIdx = 0, termDeleting = false;
-        const terminalEl = document.getElementById('terminalText');
-
-        function typeTerminal() {
-            const current = terminalTexts[termIdx];
-            if (termDeleting) {
-                terminalEl.textContent = current.substring(0, termCharIdx - 1);
-                termCharIdx--;
-            } else {
-                terminalEl.textContent = current.substring(0, termCharIdx + 1);
-                termCharIdx++;
+    // === COUNTER ===
+    const counterObs=new IntersectionObserver(entries=>{
+        entries.forEach(e=>{
+            if(e.isIntersecting){
+                const el=e.target,target=+el.dataset.target,suffix=el.dataset.suffix||'';
+                let val=0;const step=target/60;
+                const anim=()=>{val+=step;if(val>=target){el.textContent=target+suffix;return}
+                el.textContent=Math.round(val)+suffix;requestAnimationFrame(anim)};anim();
+                counterObs.unobserve(el);
             }
-
-            let speed = termDeleting ? 15 : 45;
-
-            if (!termDeleting && termCharIdx === current.length) {
-                speed = 3000;
-                termDeleting = true;
-            } else if (termDeleting && termCharIdx === 0) {
-                termDeleting = false;
-                termIdx = (termIdx + 1) % terminalTexts.length;
-                speed = 500;
-            }
-
-            setTimeout(typeTerminal, speed);
-        }
-        typeTerminal();
-
-        // ===== COUNTER ANIMATION =====
-        const counters = document.querySelectorAll('.stat-value[data-count]');
-        const counterObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const el = entry.target;
-                    const target = parseInt(el.dataset.count);
-                    const suffix = el.dataset.suffix || '';
-                    gsap.to({ val: 0 }, {
-                        val: target,
-                        duration: 2.5,
-                        ease: 'power2.out',
-                        onUpdate: function() {
-                            el.textContent = Math.round(this.targets()[0].val) + suffix;
-                        }
-                    });
-                    counterObserver.unobserve(el);
-                }
-            });
-        }, { threshold: 0.5 });
-        counters.forEach(c => counterObserver.observe(c));
-
-        // ===== NAVBAR =====
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
-            navbar.classList.toggle('scrolled', window.scrollY > 50);
-
-            // Active nav link
-            const sections = document.querySelectorAll('section[id], .hero');
-            let current = '';
-            sections.
-forEach(section => {
-                const sectionTop = section.offsetTop - 200;
-                if (scrollY >= sectionTop) current = section.getAttribute('id');
-            });
-            document.querySelectorAll('.nav-menu a').forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') === '#' + current) link.classList.add('active');
-            });
         });
+    },{threshold:0.5});
+    document.querySelectorAll('.stat-num').forEach(el=>counterObs.observe(el));
 
-        // Mobile nav
-        const navToggle = document.getElementById('navToggle');
-        navToggle.addEventListener('click', () => {
-            document.getElementById('navMenu').classList.toggle('active');
-        });
+    // === SCROLL REVEAL ===
+    const revealObs=new IntersectionObserver(entries=>{
+        entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');revealObs.unobserve(e.target)}});
+    },{threshold:0.1,rootMargin:'0px 0px -50px 0px'});
+    document.querySelectorAll('.fade-up').forEach(el=>revealObs.observe(el));
 
-        // Close mobile nav on link click
-        document.querySelectorAll('.nav-menu a').forEach(link => {
-            link.addEventListener('click', () => {
-                document.getElementById('navMenu').classList.remove('active');
-            });
+    // === SMOOTH SCROLL ===
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+        a.addEventListener('click',e=>{
+            e.preventDefault();
+            const t=document.querySelector(a.getAttribute('href'));
+            if(t)t.scrollIntoView({behavior:'smooth',block:'start'});
         });
-
-        // Smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    gsap.to(window, { scrollTo: { y: target, offsetY: 80 }, duration: 1, ease: 'power3.inOut' });
-                }
-            });
-        });
-
-        // ===== VANILLA TILT =====
-        VanillaTilt.init(document.querySelectorAll("[data-tilt]"), {
-            max: 5,
-            speed: 300,
-            glare: true,
-            "max-glare": 0.08,
-            perspective: 1000,
-        });
-
-        // ===== MAGNETIC BUTTONS =====
-        document.querySelectorAll('.btn-primary, .btn-secondary, .nav-cta, .music-toggle').forEach(btn => {
-            btn.addEventListener('mousemove', (e) => {
-                const rect = btn.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width / 2;
-                const y = e.clientY - rect.top - rect.height / 2;
-                btn.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
-            });
-            btn.addEventListener('mouseleave', () => {
-                btn.style.transform = '';
-            });
-        });
-
-        // ===== PARALLAX ON SCROLL =====
-        window.addEventListener('scroll', () => {
-            const scrolled = window.scrollY;
-            document.querySelectorAll('.aurora-beam').forEach((beam, i) => {
-                beam.style.transform = `translateY(${scrolled * 0.1 * (i + 1)}px)`;
-            });
-        });
+    });
     </script>
 </body>
 </html>
